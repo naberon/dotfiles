@@ -1,0 +1,8 @@
+[user]
+	name = naberon
+	email = naberon86@gmail.com
+[core]
+	#editor = /usr/bin/vim
+	filemode = false
+[color]
+        ui = auto
