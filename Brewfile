@@ -5,7 +5,9 @@ update
 upgrade
 
 # For cask
-tap phinze/homebrew-cask
+tap caskroom/cask
+tap sanemat/font
+
 install brew-cask
 
 # Formula
@@ -14,6 +16,7 @@ install git
 install tig
 install coreutils
 install tmux
+install ricty
 
 # ruby
 # tap homebrew/dupes 
@@ -27,6 +30,7 @@ install rbenv
 cask install filezilla
 cask install iterm2
 cask install yorufukurou
+cask install bathyscaphe
 cask alfred link
 
 # Remove outdated versions
