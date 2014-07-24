@@ -1,2 +1,9 @@
 # main viewの左端にコミットIDを表示する
 set main-view = id date author commit-title:graph=yes,refs=yes
+
+# g 先頭行, G 末尾行
+bind generic g move-first-line
+bind generic G move-last-line
+bind main G move-last-line
+
+bind generic <Ctrl-g> view-grep
