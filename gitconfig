@@ -4,6 +4,7 @@
 [core]
 	#editor = /usr/bin/vim
 	filemode = false
+	editor = /usr/bin/vim
 [color]
         ui = auto
 [push]
