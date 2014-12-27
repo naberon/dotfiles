@@ -524,12 +524,12 @@ nnoremap <Leader><C-w> :<C-u>tabclose<CR>
 " ビジュアルモード
 "----------------------------------------
 
-vnoremap p <Esc>:let current_reg = @*<CR>gvc<C-R>=current_reg<CR><Esc>:let @* = current_reg<CR>
+"vnoremap p <Esc>:let current_reg = @*<CR>gvc<C-R>=current_reg<CR><Esc>:let @* = current_reg<CR>
 
 " クリップボードを認識しない
 "vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>:let @" = current_reg<CR>
 " 末尾でのペーストに問題あり
-"vnoremap p "_xP
+vnoremap p "_xP
 "----------------------------------------
 " コマンドモード
 "----------------------------------------
