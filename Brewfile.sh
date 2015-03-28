@@ -2,11 +2,11 @@
 
 # Make sure using latest Homebrew
 echo 'brew update'
-#brew update 2> /dev/null
+brew update 2> /dev/null
 
 # Update already-installed formula
 echo 'brew upgrade'
-#upgrade 2> /dev/null
+brew upgrade 2> /dev/null
 
 IFS_BACKUP=$IFS
 IFS=$'\n'
@@ -47,7 +47,8 @@ cmds=(
 "brew cask install skype"
 "brew cask install filezilla"
 "brew cask install iterm2"
-"brew cask install yorufukurou"
+#"brew cask install yorufukurou"
+"brew cask install night-owl"
 "brew cask install bathyscaphe"
 "brew cask install pdftk"
 "brew cask install libreoffice"
