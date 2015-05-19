@@ -27,10 +27,12 @@ cmds=(
 "brew install zsh --disable-etcdir"
 "brew install git"
 "brew install tig"
+"brew install pgadmin"
 "brew install coreutils"
 "brew install tmux"
 "brew install xpdf"
 "brew install qpdf"
+"brew install the_silver_searcher"
 
 # ruby
 # tap homebrew/dupes 
@@ -52,6 +54,9 @@ cmds=(
 "brew cask install bathyscaphe"
 "brew cask install pdftk"
 "brew cask install libreoffice"
+"brew cask install pgadmin3"
+"brew cask install evernote"
+
 "brew cask install alfred"
 "brew cask alfred link"
 
