@@ -32,7 +32,7 @@ if has('vim_starting')
 endif
 
 "call vundle#rc('$CFGHOME/bundle')
-call neobundle#rc(expand('$CFGHOME/bundle/'))
+call neobundle#begin(expand('$CFGHOME/bundle/'))
 
 " let Vundle manage Vundle
 " required! 
@@ -56,7 +56,7 @@ NeoBundle 'jiangmiao/simple-javascript-indenter'
 "NeoBundle 'thinca/vim-threes'
  
 
-"NeoBundle 'tpope/vim-rails'
+NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-surround'
 
 NeoBundle 'Shougo/neobundle.vim'
@@ -434,7 +434,7 @@ set incsearch
 "set iskeyword=a-z,A-Z,48-57,_,.,-,>
 "vimgrep をデフォルトのgrepとする場合internal
 "set grepprg=internal
-set grepprg=ack\ -a
+"set grepprg=ack\ -a
 
 " 横分割時は下へ､ 縦分割時は右へ新しいウィンドウが開くようにする
 set splitbelow
@@ -513,7 +513,7 @@ nnoremap <Leader>n :<C-u>bn!<CR>
 nnoremap <Leader>p :<C-u>bp!<CR>
 nnoremap <Leader>d :<C-u>bd<CR>
 nnoremap <Leader>l :<C-u>ls<CR>
-nnoremap <Leader><C-t> :<C-u>tabnew<CR>
+"nnoremap <Leader><C-t> :<C-u>tabnew<CR>
 nnoremap <Leader><C-w> :<C-u>tabclose<CR>
 
 "----------------------------------------
@@ -620,11 +620,11 @@ let plugin_verifyenc_disable = 1
 "nnoremap <silent> <Space>y :<C-u>YRShow<CR>
 
 " vim-ruby/vim-ruby
-"autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
-"autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
-"autocmd FileType ruby,eruby let g:rubycomplete_rails=1
-"autocmd FileType ruby,eruby let g:rubycomplete_include_object=1
-"autocmd FileType ruby,eruby let g:rubycomplete_include_objectspace=1
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
+autocmd FileType ruby,eruby let g:rubycomplete_rails=1
+autocmd FileType ruby,eruby let g:rubycomplete_include_object=1
+autocmd FileType ruby,eruby let g:rubycomplete_include_objectspace=1
 
 " syntax/php.vim
 let g:php_folding = 1
@@ -636,15 +636,15 @@ set foldlevel=1
 
 " insert modeのときだけ、foldmethod=manualに設定する
 " http://d.hatena.ne.jp/thinca/20110523/1306080318
-augroup foldmethod-syntax
-  autocmd!
-  autocmd InsertEnter * if &l:foldmethod ==# 'syntax'
-  \                   |   setlocal foldmethod=manual
-  \                   | endif
-  autocmd InsertLeave * if &l:foldmethod ==# 'manual'
-  \                   |   setlocal foldmethod=syntax
-  \                   | endif
-augroup END
+"augroup foldmethod-syntax
+"  autocmd!
+"  autocmd InsertEnter * if &l:foldmethod ==# 'syntax'
+"  \                   |   setlocal foldmethod=manual
+"  \                   | endif
+"  autocmd InsertLeave * if &l:foldmethod ==# 'manual'
+"  \                   |   setlocal foldmethod=syntax
+"  \                   | endif
+"augroup END
 
 if neobundle#is_installed('neocomplete')
   let g:neocomplete#enable_at_startup = 1
@@ -829,10 +829,16 @@ function! s:unite_my_settings()
   nmap <buffer> <ESC> <Plug>(unite_exit)
   nnoremap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
 endfunction
+if executable('ag')
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+    let g:unite_source_grep_recursive_opt = ''
+else
+    let g:unite_source_grep_command='ack'
+    let g:unite_source_grep_default_opts='--no-heading --no-color -a -H'
+    let g:unite_source_grep_recursive_opt=''
+endif
 
-let g:unite_source_grep_command='ack'
-let g:unite_source_grep_default_opts='--no-heading --no-color -a -H'
-let g:unite_source_grep_recursive_opt=''
 
 " unite-grepのキーマップ
 " 選択した文字列をunite-grep
