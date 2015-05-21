@@ -46,6 +46,11 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end 
 
+# 矢印キーのインターフェイスを使って自動補完
+zstyle ':completion:*' menu select
+# エイリアスでコマンドラインの自動補完を切り替える
+setopt completealiases
+
 #cdの設定
 #ディレクトリ名だけで移動する。
 setopt auto_cd
@@ -81,3 +86,21 @@ setopt nobeep
 
 #改行のない出力をプロンプトで上書きするのを防ぐ
 unsetopt promptcr
+
+
+# peco
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(history -n 1 | \
+        eval $tac | \
+        peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history

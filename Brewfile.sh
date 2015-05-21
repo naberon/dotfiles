@@ -33,6 +33,7 @@ cmds=(
 "brew install tmux"
 "brew install xpdf"
 "brew install qpdf"
+"brew install peco"
 
 
 "brew install the_silver_searcher"
