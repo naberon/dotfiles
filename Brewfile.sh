@@ -25,6 +25,7 @@ cmds=(
 
 # Formula
 "brew install zsh --disable-etcdir"
+"brew install zsh-completions"
 "brew install git"
 "brew install tig"
 "brew install pgadmin"
@@ -32,6 +33,8 @@ cmds=(
 "brew install tmux"
 "brew install xpdf"
 "brew install qpdf"
+
+
 "brew install the_silver_searcher"
 
 # ruby
