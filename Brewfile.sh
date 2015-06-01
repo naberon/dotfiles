@@ -34,6 +34,8 @@ cmds=(
 "brew install xpdf"
 "brew install qpdf"
 "brew install peco"
+"brew install vim --with-ruby --with-lua"
+
 
 
 "brew install the_silver_searcher"
@@ -60,6 +62,7 @@ cmds=(
 "brew cask install libreoffice"
 "brew cask install pgadmin3"
 "brew cask install evernote"
+"brew cask install vox"
 
 "brew cask install alfred"
 "brew cask alfred link"
