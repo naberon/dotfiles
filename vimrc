@@ -27,7 +27,6 @@ elseif has('unix')
 endif
 
 if has('vim_starting')
-  "set rtp+=$CFGHOME/bundle/vundle
   set rtp+=$CFGHOME/bundle/neobundle.vim
 endif
 
@@ -41,44 +40,85 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " My Bundles here:
 "
 " original repos on github
+NeoBundle 'Shougo/vimproc.vim', {
+\ 'build' : {
+\     'cygwin' : 'make -f make_cygwin.mak',
+\     'mac' : 'make -f make_mac.mak',
+\     'unix' : 'make -f make_unix.mak',
+\    },
+\ }
 
-" syntax / indent
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'slim-template/vim-slim'
-NeoBundle '2072/PHP-Indenting-for-VIm' " php indent
-"NeoBundle 'vim-scripts/php.vim--Hodge' " php syntax
-NeoBundle 'tpope/vim-markdown'
-NeoBundle 'jelera/vim-javascript-syntax'
-NeoBundle 'jiangmiao/simple-javascript-indenter'
-"NeoBundle 'JulesWang/css.vim'
+NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
+
+NeoBundleLazy 'Shougo/neosnippet', {
+      \ 'autoload' : {'insert' : 1}}
+
+NeoBundleLazy 'Shougo/neosnippet-snippets', {
+      \ 'autoload' : {'insert' : 1}}
+
+NeoBundleLazy 'Shougo/vimfiler', {
+\ 'autoload' : { 'commands' : [ 'VimFilerBufferDir' ] },
+\ 'depends': [ 'Shougo/unite.vim' ],
+\}
+
+NeoBundleLazy 'Shougo/unite.vim' , {
+\ 'autoload' : { 'commands' : [ 'Unite' ] }}
+
+NeoBundleLazy 'Shougo/neomru.vim' , {
+\ 'autoload' : { 'unite_sources' : ['file_mru', 'directory_mru'] }}
+NeoBundleLazy 'tsukkee/unite-tag' , {
+\ 'autoload' : { 'unite_sources' : [ 'tag', 'tag/file', 'tag/include' ] }}
+NeoBundleLazy 'Shougo/unite-outline' , {
+\ 'autoload' : { 'unite_sources' : [ 'outline' ] }}
+NeoBundleLazy 'basyura/unite-rails', {
+\ 'autoload' : {
+\   'unite_sources' : [
+\     'rails/bundle', 'rails/bundled_gem', 'rails/config',
+\     'rails/controller', 'rails/db', 'rails/destroy', 'rails/features',
+\     'rails/gem', 'rails/gemfile', 'rails/generate', 'rails/git', 'rails/helper',
+\     'rails/heroku', 'rails/initializer', 'rails/javascript', 'rails/lib', 'rails/log',
+\     'rails/mailer', 'rails/model', 'rails/rake', 'rails/route', 'rails/schema', 'rails/spec',
+\     'rails/stylesheet', 'rails/view'
+\   ]
+\ }}
+
+NeoBundleLazy 'alpacatc/alpaca_tags', {
+\ 'depends': 'Shougo/vimproc',
+\ 'autoload' : {
+\   'commands': ['AlpacaTagsUpdate', 'AlpacaTagsSet', 'AlpacaTagsBundle']
+\ }}
+
+NeoBundleLazy 'taichouchou2/vim-endwise.git', {
+\ 'autoload' : {'insert' : 1, } }
+
+NeoBundleLazy 'vim-ruby/vim-ruby', { 
+\ 'autoload' : { 'filetypes' : ['ruby', 'eruby'] }}
+
+NeoBundleLazy 'tpope/vim-rails', { 
+\ 'autoload' : { 'filetypes' : ['ruby', 'eruby'] }}
+
+NeoBundleLazy 'thinca/vim-scouter', {
+\ 'autoload': {'commands': 'Scouter'} }
 
 " ゲーム
-"NeoBundle 'thinca/vim-threes'
- 
+NeoBundleLazy 'thinca/vim-threes', {
+\ 'autoload': { 'commands': 'ThreesStart' }}
 
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'tpope/vim-surround'
-
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/neomru.vim'
-"NeoBundle 'Shougo/vimproc'
-NeoBundle 'Shougo/vimproc.vim', {
-      \ 'build' : {
-      \     'windows' : 'tools\\update-dll-mingw',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler'
-
-NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
+"------------------------------------
+"
+" syntax / indent
+"NeoBundle 'slim-template/vim-slim'
+"NeoBundle '2072/PHP-Indenting-for-VIm' " php indent
+"NeoBundle 'vim-scripts/php.vim--Hodge' " php syntax
+"NeoBundle 'tpope/vim-markdown'
+NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'jiangmiao/simple-javascript-indenter'
+NeoBundle 'JulesWang/css.vim'
+"NeoBundle 'Lokaltog/vim-easymotion'
+
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'thinca/vim-ref'
  
 "NeoBundle 'itchyny/lightline.vim'
 "NeoBundle 'lilydjwg/colorizer'
@@ -88,13 +128,11 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'mileszs/ack.vim'
+"NeoBundle 'mileszs/ack.vim'
 
 "NeoBundle 'violetyk/neocomplete-php.vim'
-
+"
 " unite plugin
-NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'Shougo/unite-outline'
  
 "NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 " vim-scripts repos
@@ -314,13 +352,14 @@ set virtualedit=block
 "カーソルキーで行末／行頭の移動可能に設定。
 "set whichwrap=b,s,[,],<,>
 "バックスペースでインデントや改行を削除できるようにする。
-"set backspace=indent,eol,start
+set backspace=indent,eol,start
 "□や○の文字があってもカーソル位置がずれないようにする。
 if exists('&ambiwidth')
   set ambiwidth=double
 endif
 "コマンドライン補完するときに強化されたものを使う。
 set wildmenu
+
 "マウスを有効にする。
 if has('mouse')
   set mouse=a
@@ -568,18 +607,6 @@ if has('syntax')
   augroup END
 endif
 
-" スカウター
-function! Scouter(file, ...)
-  let pat = '^\s*$\|^\s*"'
-  let lines = readfile(a:file)
-  if !a:0 || !a:1
-    let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
-  endif
-  return len(filter(lines,'v:val !~ pat'))
-endfunction
-command! -bar -bang -nargs=? -complete=file Scouter
-\        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
-
 " ------------------------------------------
 " ファイルタイプ毎の設定
 " ------------------------------------------
@@ -632,19 +659,6 @@ let g:php_sql_query = 1
 
 " indent/php.vim
 "let g:PHP_vintage_case_default_indent = 1
-set foldlevel=1
-
-" insert modeのときだけ、foldmethod=manualに設定する
-" http://d.hatena.ne.jp/thinca/20110523/1306080318
-"augroup foldmethod-syntax
-"  autocmd!
-"  autocmd InsertEnter * if &l:foldmethod ==# 'syntax'
-"  \                   |   setlocal foldmethod=manual
-"  \                   | endif
-"  autocmd InsertLeave * if &l:foldmethod ==# 'manual'
-"  \                   |   setlocal foldmethod=syntax
-"  \                   | endif
-"augroup END
 
 if neobundle#is_installed('neocomplete')
   let g:neocomplete#enable_at_startup = 1
@@ -768,31 +782,6 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
 
 
-" old set--------------------
-" C-hで補完を続行しない
-"inoremap <expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
-"
-"" C-nでneocomplcache補完
-"inoremap pumvisible() ? "<C-n>" : "<TAB>"
-""inoremap <expr><C-n>  pumvisible() ? "\<C-n>" : neocomplcache#manual_keyword_complete()
-"
-"" C-pでkeyword補完
-"inoremap <expr><C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
-"" C-yで補完選択
-"inoremap <expr><C-y>  pumvisible() ? neocomplcache#close_popup()  : "\<C-y>"
-"" C-eで補完キャンセル
-"inoremap <expr><C-e>  pumvisible() ? neocomplcache#cancel_popup() : "\<C-e>"
-"" C-oでオムニ補完
-"inoremap <expr><C-o> &filetype == 'vim' ? "\<C-x>\<C-v>\<C-p>" : neocomplcache#manual_omni_complete()
-"" C-x C-fでファイル名補完
-"inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
-"
-"imap <C-l> <Plug>(neocomplcache_snippets_expand)
-"smap <C-l> <Plug>(neocomplcache_snippets_expand)
-"
-" ------------------------------
-
-
 " macros/cd.vim 
 "source $CFGHOME/macros/cd.vim
 "au   BufEnter *   execute ":lcd " . expand("%:p:h") 
@@ -808,7 +797,27 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 "let Tlist_Use_Right_Window = 1
 
 " plugin/unite.vim
-let g:unite_source_history_yank_enable =1  "history/yankの有効化
+let s:bundle = neobundle#get('unite.vim')
+function! s:bundle.hooks.on_source(bundle)
+    let g:unite_source_history_yank_enable =1  "history/yankの有効化
+
+    autocmd FileType unite call s:unite_my_settings()
+    function! s:unite_my_settings()
+        nmap <buffer> <ESC> <Plug>(unite_exit)
+        nnoremap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
+    endfunction
+
+    if executable('ag')
+        let g:unite_source_grep_command = 'ag'
+        let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+        let g:unite_source_grep_recursive_opt = ''
+    else
+        let g:unite_source_grep_command='ack'
+        let g:unite_source_grep_default_opts='--no-heading --no-color -a -H'
+        let g:unite_source_grep_recursive_opt=''
+    endif
+endfunction
+
 nnoremap <silent><C-f><C-b>   :<C-u>Unite buffer<Return>
 nnoremap <silent><C-f><C-h>   :<C-u>Unite file_mru -buffer-name=files<Return>
 nnoremap <silent><C-f><C-f>   :<C-u>UniteWithBufferDir file  -buffer-name=files<Return>
@@ -824,29 +833,17 @@ autocmd BufEnter *
 
 autocmd FileType vimfiler call unite#custom_default_action('directory', 'lcd')
 
-autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()
-  nmap <buffer> <ESC> <Plug>(unite_exit)
-  nnoremap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
-endfunction
-if executable('ag')
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-    let g:unite_source_grep_recursive_opt = ''
-else
-    let g:unite_source_grep_command='ack'
-    let g:unite_source_grep_default_opts='--no-heading --no-color -a -H'
-    let g:unite_source_grep_recursive_opt=''
-endif
-
-
 " unite-grepのキーマップ
 " 選択した文字列をunite-grep
 " https://github.com/shingokatsushima/dotfiles/blob/master/.vimrc
 vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
 
 " vimfiler
-let g:vimfiler_enable_auto_cd = 1
+let s:bundle = neobundle#get('vimfiler')
+function! s:bundle.hooks.on_source(bundle)
+  " ココにvimfilerの設定とか記述する。
+  let g:vimfiler_enable_auto_cd = 1
+endfunction
 nnoremap <silent><Space>f :VimFiler -split -simple -winwidth=35 -no-quit<CR>
 
 " plugin/NERD_tree.vim
@@ -917,25 +914,101 @@ let g:ref_php_encoding = 'utf8'
 let g:ref_phpmanual_path = $CFGHOME.'/refs/php'
 nmap ,rp :<C-u>Unite ref/phpmanual<CR>
 
-"" quickrun
-let g:quickrun_config={'*': {'split': ''}}
-let g:quickrun_config['R'] = { 
-\   "hook/output_encode/enable" : 1,
-\   "hook/output_encode/encoding" : "SJIS",
-\}
-" lightline.vim
-"let g:lightline = {
-"      \ 'colorscheme': 'wombat',
-"      \ }
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'component': {
-      \   'readonly': '%{&readonly?"":""}',
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' }
-      \ }
 
+
+let s:bundle = neobundle#get('neomru.vim')
+function! s:bundle.hooks.on_source(bundle)
+    let g:neomru#time_format = "(%Y/%m/%d %H:%M:%S) "
+endfunction
+
+"" quickrun
+let s:bundle = neobundle#get('vim-quickrun')
+function! s:bundle.hooks.on_source(bundle)
+    let g:quickrun_config={
+                \    '_': {
+                \        'split': '',
+                \        "runner" : "vimproc",
+                \        "runner/vimproc/updatetime" : 60
+                \    },
+                \    'R': {
+                \        "hook/output_encode/enable" : 1,
+                \        "hook/output_encode/encoding" : "SJIS",
+                \    }
+                \}
+endfunction
+
+
+nnoremap <C-C> <ESC>
+
+"------------------------------------
+" Unite-rails.vim
+"------------------------------------
+"{{{
+function! UniteRailsSetting()
+    nnoremap <buffer><C-F><C-v>       :<C-U>Unite rails/view<CR>
+    nnoremap <buffer><C-F><C-m>       :<C-U>Unite rails/model<CR>
+    nnoremap <buffer><C-F><C-C>       :<C-U>Unite rails/controller<CR>
+
+    nnoremap <buffer><C-F>c           :<C-U>Unite rails/config<CR>
+    nnoremap <buffer><C-F>s           :<C-U>Unite rails/spec<CR>
+    nnoremap <buffer><C-F>m           :<C-U>Unite rails/db -input=migrate<CR>
+    nnoremap <buffer><C-F>l           :<C-U>Unite rails/lib<CR>
+    nnoremap <buffer><expr><C-H>g     ':e '.b:rails_root.'/Gemfile<CR>'
+    nnoremap <buffer><expr><C-H>r     ':e '.b:rails_root.'/config/routes.rb<CR>'
+    nnoremap <buffer><expr><C-H>se    ':e '.b:rails_root.'/db/seeds.rb<CR>'
+    "nnoremap <buffer><C-H>ra          :<C-U>Unite rails/rake<CR>
+    "nnoremap <buffer><C-H>h           :<C-U>Unite rails/heroku<CR>
+endfunction
+aug MyAutoCmd
+    au User Rails call UniteRailsSetting()
+aug END
+"}}}
+
+"" =======================================
+"" Find Motions
+"" =======================================
+"" Jump to anywhere you want by just `4` or `3` key strokes without thinking!
+"" `s{char}{char}{target}`
+"nmap s <Plug>(easymotion-s2)
+"xmap s <Plug>(easymotion-s2)
+"omap z <Plug>(easymotion-s2)
+"" Of course, you can map to any key you want such as `<Space>`
+"" map <Space>(easymotion-s2)
+"
+"" Turn on case sensitive feature
+"let g:EasyMotion_smartcase = 1
+"
+"" =======================================
+"" Line Motions
+"" =======================================
+"" `JK` Motions: Extend line motions
+"map <Leader>j <Plug>(easymotion-j)
+"map <Leader>k <Plug>(easymotion-k)
+"" keep cursor column with `JK` motions
+"let g:EasyMotion_startofline = 0
+"
+"" =======================================
+"" General Configuration
+"" =======================================
+"let g:EasyMotion_keys = ';HKLYUIOPNM,QWERTASDGZXCVBJF'
+"" Show target key with upper case to improve readability
+"let g:EasyMotion_use_upper = 1
+"" Jump to first match with enter & space
+"let g:EasyMotion_enter_jump_first = 1
+"let g:EasyMotion_space_jump_first = 1
+"
+"
+"" =======================================
+"" Search Motions
+"" =======================================
+"" Extend search motions with vital-over command line interface
+"" Incremental highlight of all the matches
+"" Now, you don't need to repetitively press `n` or `N` with EasyMotion feature
+"" `<Tab>` & `<S-Tab>` to scroll up/down a page with next match
+"" :h easymotion-command-line
+"nmap g/ <Plug>(easymotion-sn)
+"xmap g/ <Plug>(easymotion-sn)
+"omap g/ <Plug>(easymotion-tn)
 
 
 " vim:set et ts=2 sts=2 sw=2
