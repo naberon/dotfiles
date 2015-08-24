@@ -35,10 +35,9 @@ cmds=(
 "brew install qpdf"
 "brew install peco"
 "brew install vim --with-ruby --with-lua"
-
-
-
+"brew install redis"
 "brew install the_silver_searcher"
+"brew install reattach-to-user-namespace"
 
 # ruby
 # tap homebrew/dupes 
@@ -65,7 +64,7 @@ cmds=(
 "brew cask install vox"
 
 "brew cask install alfred"
-"brew cask alfred link"
+#"brew cask alfred link"
 
 # Remove outdated versions
 "brew cleanup"
