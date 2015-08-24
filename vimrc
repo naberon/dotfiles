@@ -91,11 +91,15 @@ NeoBundleLazy 'alpacatc/alpaca_tags', {
 NeoBundleLazy 'taichouchou2/vim-endwise.git', {
 \ 'autoload' : {'insert' : 1, } }
 
-NeoBundleLazy 'vim-ruby/vim-ruby', { 
-\ 'autoload' : { 'filetypes' : ['ruby', 'eruby'] }}
-
 NeoBundleLazy 'tpope/vim-rails', { 
-\ 'autoload' : { 'filetypes' : ['ruby', 'eruby'] }}
+\ 'autoload' : { 'filetypes' : ['ruby', 'eruby'] },
+\ 'depends': [ 'vim-ruby' ]
+\ }
+
+NeoBundle 'vim-ruby/vim-ruby'
+" NeoBundleLazyで読み込むとvim-railsがうまくうごかない
+"NeoBundleLazy 'vim-ruby/vim-ruby', {
+"\ 'autoload' : { 'filetypes' : ['ruby', 'eruby'] }}
 
 NeoBundleLazy 'thinca/vim-scouter', {
 \ 'autoload': {'commands': 'Scouter'} }
@@ -105,6 +109,8 @@ NeoBundleLazy 'thinca/vim-threes', {
 \ 'autoload': { 'commands': 'ThreesStart' }}
 
 NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'cohama/agit.vim'
+NeoBundle 'tpope/vim-fugitive'
 "------------------------------------
 "
 " syntax / indent
@@ -434,7 +440,10 @@ set showcmd
 set title
 "ステータスラインに表示
 set laststatus=2
-let &statusline = '%t%m%r%h%w%=%y[%{&fileencoding},%{&ff}][%l/%L]'
+"let &statusline = '%t%m%r%h%w%=%y[%{&fileencoding},%{&ff}][%l/%L]'
+"let &statusline = '%t%m%r%h%w%=%y[%{&fileencoding},%{&ff}][ASCII=\%03.3b]\ [HEX=\%02.2B][%l/%L]'
+let &statusline = '%t%m%r%h%w%=%y[%{&fileencoding},%{&ff}][ASCII=\%b][HEX=\%B][%l/%L]'
+
 
 "Tabキー、行末の半角スペースを明示的に表示する。
 set list
