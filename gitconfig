@@ -2,7 +2,7 @@
 	name = naberon
 	email = naberon86@gmail.com
 [core]
-	#editor = /usr/bin/vim
+	editor = /usr/local/bin/vim
 	filemode = false
 	editor = /usr/bin/vim
 	excludesfile = /Users/naberon/.gitignore_global
