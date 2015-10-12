@@ -1,4 +1,5 @@
 PATH=/usr/local/bin:$PATH
+PATH=$HOME/.nodebrew/current/bin:$PATH
 
 export PGDATA=/usr/local/var/postgres
 # rbenv

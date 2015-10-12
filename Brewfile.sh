@@ -47,6 +47,8 @@ cmds=(
 "brew install ruby-build"
 "brew install rbenv"
 
+"brew install imagemagick"
+
 # .dmg apps
 "brew cask install xtrafinder"
 "brew cask install sourcetree"
@@ -62,6 +64,7 @@ cmds=(
 "brew cask install pgadmin3"
 "brew cask install evernote"
 "brew cask install vox"
+"brew cask install gimp"
 
 "brew cask install alfred"
 #"brew cask alfred link"
