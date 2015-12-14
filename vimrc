@@ -3,7 +3,7 @@
 "----------------------------------------
 "コメント以外で全角スペースを指定している部分があるので
 "scriptencodingと、このファイルのエンコードが一致するよう注意！
-set nocompatible               " be iMproved
+"set nocompatible               " be iMproved
 filetype off
 
 
@@ -55,17 +55,28 @@ NeoBundleLazy 'Shougo/neosnippet', {
 
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \ 'autoload' : {'insert' : 1}}
+NeoBundleLazy 'Shougo/neco-syntax', {
+      \ 'autoload' : {'insert' : 1}}
+NeoBundleLazy 'ujihisa/neco-look', {
+      \ 'autoload' : {'insert' : 1}}
+NeoBundleLazy 'ujihisa/neco-look', {
+      \ 'autoload' : {'insert' : 1}}
 
 NeoBundleLazy 'Shougo/vimfiler', {
 \ 'autoload' : { 'commands' : [ 'VimFilerBufferDir' ] },
 \ 'depends': [ 'Shougo/unite.vim' ],
 \}
 
-NeoBundleLazy 'Shougo/unite.vim' , {
-\ 'autoload' : { 'commands' : [ 'Unite' ] }}
+NeoBundleLazy 'Shougo/unite.vim', {
+\ 'autoload' : { 'commands' : [ 'Unite' ]} ,
+\ 'depends': [ 'Shougo/neomru.vim' ],
+\}
 
+NeoBundle 'Shougo/neoyank.vim'
+"NeoBundleLazy 'Shougo/neomru.vim' , {
+"\ 'autoload' : { 'unite_sources' : ['file_mru', 'directory_mru'] }}
 NeoBundleLazy 'Shougo/neomru.vim' , {
-\ 'autoload' : { 'unite_sources' : ['file_mru', 'directory_mru'] }}
+\ 'autoload' : { 'filetypes' : 'all' }}
 NeoBundleLazy 'tsukkee/unite-tag' , {
 \ 'autoload' : { 'unite_sources' : [ 'tag', 'tag/file', 'tag/include' ] }}
 NeoBundleLazy 'Shougo/unite-outline' , {
@@ -149,7 +160,8 @@ NeoBundle 'matchit.zip'
  
 " color
 " NeoBundle 'w0ng/vim-hybrid'
-
+NeoBundle 'pasela/edark.vim'
+NeoBundle 'sickill/vim-monokai'
 
 " non github repos
 "NeoBundle 'git://git.wincent.com/command-t.git'
@@ -253,7 +265,7 @@ endif
 
 if has('kaoriya')
 " For Kaoriya only.
-  set fileencodings=guess
+  "set fileencodings=guess
 endif
 
 " When do not include Japanese, use encoding for fileencoding.
@@ -459,7 +471,9 @@ if &t_Co > 2 || has('gui_running')
   if !has('gui_running') && (&term =~ "xterm" || &term =~ "screen" || &term =~ "rxvt-256color")
     "colorscheme luciusmod
     "colorscheme hybrid
-    colorscheme luciusmod
+    "colorscheme luciusmod
+    colorscheme edark
+    "colorscheme monokai
     set t_Co=256
     set t_AB=[48;5;%dm
     set t_AF=[38;5;%dm
@@ -663,7 +677,7 @@ autocmd FileType ruby,eruby let g:rubycomplete_include_object=1
 autocmd FileType ruby,eruby let g:rubycomplete_include_objectspace=1
 
 " syntax/php.vim
-let g:php_folding = 1
+let g:php_folding = 0
 let g:php_sql_query = 1
 
 " indent/php.vim
