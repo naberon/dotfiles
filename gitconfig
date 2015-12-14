@@ -4,8 +4,8 @@
 [core]
 	editor = /usr/local/bin/vim
 	filemode = false
-	editor = /usr/bin/vim
-	excludesfile = /Users/naberon/.gitignore_global
+    #editor = /usr/bin/vim
+	excludesfile = /Users/watanabe/.gitignore_global
 [color]
         ui = auto
 [push]
@@ -14,5 +14,5 @@
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [mergetool "sourcetree"]
-	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.0.5.5/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
