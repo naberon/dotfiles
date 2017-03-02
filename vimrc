@@ -73,14 +73,16 @@ NeoBundleLazy 'Shougo/unite.vim', {
 \}
 
 NeoBundle 'Shougo/neoyank.vim'
+NeoBundle 'tsukkee/unite-tag'
+NeoBundle 'Shougo/unite-outline'
 "NeoBundleLazy 'Shougo/neomru.vim' , {
 "\ 'autoload' : { 'unite_sources' : ['file_mru', 'directory_mru'] }}
 NeoBundleLazy 'Shougo/neomru.vim' , {
 \ 'autoload' : { 'filetypes' : 'all' }}
-NeoBundleLazy 'tsukkee/unite-tag' , {
-\ 'autoload' : { 'unite_sources' : [ 'tag', 'tag/file', 'tag/include' ] }}
-NeoBundleLazy 'Shougo/unite-outline' , {
-\ 'autoload' : { 'unite_sources' : [ 'outline' ] }}
+"NeoBundleLazy 'tsukkee/unite-tag' , {
+"\ 'autoload' : { 'unite_sources' : [ 'tag', 'tag/file', 'tag/include' ] }}
+"NeoBundleLazy 'Shougo/unite-outline' , {
+"\ 'autoload' : { 'unite_sources' : [ 'outline' ] }}
 NeoBundleLazy 'basyura/unite-rails', {
 \ 'autoload' : {
 \   'unite_sources' : [
@@ -92,9 +94,12 @@ NeoBundleLazy 'basyura/unite-rails', {
 \     'rails/stylesheet', 'rails/view'
 \   ]
 \ }}
+let g:loaded_matchparen = 1
+NeoBundle 'itchyny/vim-parenmatch'
+NeoBundle 'itchyny/vim-cursorword'
 
 NeoBundleLazy 'alpacatc/alpaca_tags', {
-\ 'depends': 'Shougo/vimproc',
+\ 'depends': 'Shougo/vimproc.vim',
 \ 'autoload' : {
 \   'commands': ['AlpacaTagsUpdate', 'AlpacaTagsSet', 'AlpacaTagsBundle']
 \ }}
@@ -120,8 +125,13 @@ NeoBundleLazy 'thinca/vim-threes', {
 \ 'autoload': { 'commands': 'ThreesStart' }}
 
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'cohama/agit.vim'
-NeoBundle 'tpope/vim-fugitive'
+"NeoBundle 'cohama/agit.vim'
+"NeoBundle 'tpope/vim-fugitive'
+
+NeoBundle 'cohama/vim-hier'
+NeoBundle 'dannyob/quickfixstatus'
+NeoBundle "osyo-manga/shabadou.vim"
+NeoBundle "osyo-manga/vim-watchdogs"
 "------------------------------------
 "
 " syntax / indent
@@ -140,7 +150,7 @@ NeoBundle 'thinca/vim-ref'
 "NeoBundle 'itchyny/lightline.vim'
 "NeoBundle 'lilydjwg/colorizer'
 
-NeoBundle 'scrooloose/syntastic'
+"NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'mattn/emmet-vim'
@@ -161,7 +171,7 @@ NeoBundle 'matchit.zip'
 " color
 " NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'pasela/edark.vim'
-NeoBundle 'sickill/vim-monokai'
+"NeoBundle 'sickill/vim-monokai'
 
 " non github repos
 "NeoBundle 'git://git.wincent.com/command-t.git'
@@ -471,8 +481,8 @@ if &t_Co > 2 || has('gui_running')
   if !has('gui_running') && (&term =~ "xterm" || &term =~ "screen" || &term =~ "rxvt-256color")
     "colorscheme luciusmod
     "colorscheme hybrid
-    "colorscheme luciusmod
-    colorscheme edark
+    colorscheme luciusmod
+    "colorscheme edark
     "colorscheme monokai
     set t_Co=256
     set t_AB=[48;5;%dm
@@ -928,9 +938,9 @@ nnoremap <silent>ML :MemoList2<CR>
 
 
 " scrooloose/syntastic
-let g:syntastic_enable_signs=1
+"let g:syntastic_enable_signs=1
 "let g:syntastic_auto_loc_list=2
-let g:syntastic_auto_loc_list=1
+"let g:syntastic_auto_loc_list=1
 
 """ ref.vim
 let g:ref_php_encoding = 'utf8'
@@ -962,6 +972,32 @@ endfunction
 
 
 nnoremap <C-C> <ESC>
+
+
+"let s:bundle = neobundle#get('vim-watchdogs')
+"function! s:bundle.hooks.on_source(bundle)
+"    let g:watchdogs_check_BufWritePost_enables = {
+"                \   "php"  : 1,
+"                \   "ruby" : 1
+"                \}
+"    call watchdogs#setup(g:quickrun_config)
+"endfunction
+"
+let g:hier_enabled = 1
+let g:quickrun_config = {}
+let g:quickrun_config['watchdogs_checker/_'] = {
+                \   'hook/hier_update/enable_exit' : 1,
+                \   'runner/vimproc/updatetime' : 40,
+                \ }
+                "\   'outputter/quickfix/open_cmd' : '',
+
+let g:watchdogs_check_BufWritePost_enables = {
+            \   "php"  : 1,
+            \   "ruby" : 1
+            \}
+call watchdogs#setup(g:quickrun_config)
+
+
 
 "------------------------------------
 " Unite-rails.vim
