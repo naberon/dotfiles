@@ -14,14 +14,14 @@ IFS=$'\n'
 cmds=(
 
 # For cask
-"brew tap caskroom/cask" 
-"brew install brew-cask"
-"brew tap caskroom/versions"
+#"brew tap caskroom/cask" 
+#"brew install brew-cask"
+#"brew tap caskroom/versions"
 # font
-"brew tap sanemat/font"
+#"brew tap sanemat/font"
 "brew cask install xquartz"
 "brew install ricty"
-"brew tap caskroom/fonts"
+#"brew tap caskroom/fonts"
 "brew cask install font-ricty-diminished"
 
 # Formula
@@ -34,14 +34,24 @@ cmds=(
 "brew install homebrew/x11/xpdf"
 "brew install qpdf"
 "brew install peco"
-"brew install vim --with-ruby --with-lua"
 "brew install redis"
 "brew install the_silver_searcher"
 "brew install reattach-to-user-namespace"
 "brew install postgresql"
 "brew install python"
 "brew install ffmpeg"
-"brew install mysql"
+#"brew install mysql"
+"brew install homebrew/versions/mysql56"
+"brew install redis"
+
+# vim
+"brew tap supermomonga/homebrew-splhack"
+"brew install cscope"
+"brew install lua"
+"brew install --HEAD cmigemo-mk"
+"brew install --HEAD ctags-objc-ja"
+"brew install macvim-kaoriya --HEAD --with-lua　--with-cscope"
+"brew linkapps"
 
 # ruby
 # tap homebrew/dupes 
@@ -66,13 +76,13 @@ cmds=(
 "brew cask install pdftk"
 "brew cask install libreoffice"
 "brew cask install pgadmin3"
-"brew cask install vox"
+#"brew cask install vox"
 "brew cask install gimp"
 "brew cask install the-unarchiver"
 "brew cask install skitch"
 "brew cask install totalspaces"
 "brew cask install onyx"
-"brew cask install folx"
+#"brew cask install folx"
 "brew cask install vlc"
 
 # web service
@@ -98,7 +108,7 @@ cmds=(
 # keyboard
 "brew cask install karabiner"
 "brew cask install shiftit"
-"brew cask install --force clipy"
+"brew cask install clipy"
 
 # kindle
 "brew cask install kindle"
@@ -106,7 +116,7 @@ cmds=(
 "brew cask install calibre" # pdf -> mobi
 
 # doc search
-"brew cask install dash" 
+#"brew cask install dash" 
 "brew cask install alfred"
 
 
