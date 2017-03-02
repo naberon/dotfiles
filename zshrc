@@ -81,6 +81,8 @@ alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -al'
 
+#alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+
 # tmux + mac clipboard
 if [ -n "$TMUX" ]; then
     alias pbcopy="reattach-to-user-namespace pbcopy"
