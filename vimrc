@@ -4,8 +4,15 @@
 "コメント以外で全角スペースを指定している部分があるので
 "scriptencodingと、このファイルのエンコードが一致するよう注意！
 "set nocompatible               " be iMproved
+"
+" reset
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
 filetype off
 
+let g:vimproc#download_windows_dll = 1
 
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
@@ -14,14 +21,11 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
       \ (!executable('xdg-open') &&
       \ system('uname') =~? '^darwin'))
 
-" Set augroup.
-augroup MyAutoCmd
-  autocmd!
-augroup END
 
 "unix,win32でのPathの違いを吸収
 if s:is_windows 
-  let $CFGHOME=$VIM.'/vimfiles'
+  " let $CFGHOME=$VIM.'/vimfiles'
+  let $CFGHOME=$HOME.'/vimfiles'
 elseif has('unix')
   let $CFGHOME=$HOME.'/.vim'
 endif
@@ -56,8 +60,6 @@ NeoBundleLazy 'Shougo/neosnippet', {
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \ 'autoload' : {'insert' : 1}}
 NeoBundleLazy 'Shougo/neco-syntax', {
-      \ 'autoload' : {'insert' : 1}}
-NeoBundleLazy 'ujihisa/neco-look', {
       \ 'autoload' : {'insert' : 1}}
 NeoBundleLazy 'ujihisa/neco-look', {
       \ 'autoload' : {'insert' : 1}}
@@ -190,9 +192,10 @@ call neobundle#end()
 "if has("win32")
 "  let &termencoding = &encoding
 "endif
-"set encoding=utf-8
-"set fileencodings=utf-8,cp932,euc-jp
 
+scriptencoding utf-8
+set encoding=utf-8
+set fileencodings=utf-8,cp932,euc-jp
 
 "pluginを使用可能にする
 filetype plugin indent on
@@ -206,7 +209,7 @@ NeoBundleCheck
 
 " Setting of the encoding to use for a save and reading.
 " Make it normal in UTF-8 in Unix.
-set encoding=utf-8
+" set encoding=utf-8
 
 " Setting of terminal encoding."{{{
 if !has('gui_running')
@@ -225,7 +228,7 @@ if !has('gui_running')
     elseif $ENV_ACCESS ==# 'colinux'
       set termencoding=utf-8
     else " fallback
-      set termencoding= " same as 'encoding'
+      set termencoding=utf-8 " same as 'encoding'
     endif
   endif
 elseif s:is_windows
@@ -234,48 +237,48 @@ elseif s:is_windows
 endif
 "}}}
 
-" The automatic recognition of the character code."{{{
-if !exists('did_encoding_settings') && has('iconv')
-  let s:enc_euc = 'euc-jp'
-  let s:enc_jis = 'iso-2022-jp'
-
-" Does iconv support JIS X 0213?
-  if iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
-    let s:enc_euc = 'euc-jisx0213,euc-jp'
-    let s:enc_jis = 'iso-2022-jp-3'
-  endif
-
-" Build encodings.
-  let &fileencodings = 'ucs-bom'
-  if &encoding !=# 'utf-8'
-    let &fileencodings = &fileencodings . ',' . 'ucs-2le'
-    let &fileencodings = &fileencodings . ',' . 'ucs-2'
-  endif
-  let &fileencodings = &fileencodings . ',' . s:enc_jis
-
-  if &encoding ==# 'utf-8'
-    let &fileencodings = &fileencodings . ',' . s:enc_euc
-    let &fileencodings = &fileencodings . ',' . 'cp932'
-  elseif &encoding =~# '^euc-\%(jp\|jisx0213\)$'
-    let &encoding = s:enc_euc
-    let &fileencodings = &fileencodings . ',' . 'utf-8'
-    let &fileencodings = &fileencodings . ',' . 'cp932'
-  else " cp932
-    let &fileencodings = &fileencodings . ',' . 'utf-8'
-    let &fileencodings = &fileencodings . ',' . s:enc_euc
-  endif
-  let &fileencodings = &fileencodings . ',' . &encoding
-
-  unlet s:enc_euc
-  unlet s:enc_jis
-
-  let did_encoding_settings = 1
-endif
-"}}}
+" //" The automatic recognition of the character code."{{{
+" //if !exists('did_encoding_settings') && has('iconv')
+" //  let s:enc_euc = 'euc-jp'
+" //  let s:enc_jis = 'iso-2022-jp'
+" //
+" //" Does iconv support JIS X 0213?
+" //  if iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+" //    let s:enc_euc = 'euc-jisx0213,euc-jp'
+" //    let s:enc_jis = 'iso-2022-jp-3'
+" //  endif
+" //
+" //" Build encodings.
+" //  let &fileencodings = 'ucs-bom'
+" //  if &encoding !=# 'utf-8'
+" //    let &fileencodings = &fileencodings . ',' . 'ucs-2le'
+" //    let &fileencodings = &fileencodings . ',' . 'ucs-2'
+" //  endif
+" //  let &fileencodings = &fileencodings . ',' . s:enc_jis
+" //
+" //  if &encoding ==# 'utf-8'
+" //    let &fileencodings = &fileencodings . ',' . s:enc_euc
+" //    let &fileencodings = &fileencodings . ',' . 'cp932'
+" //  elseif &encoding =~# '^euc-\%(jp\|jisx0213\)$'
+" //    let &encoding = s:enc_euc
+" //    let &fileencodings = &fileencodings . ',' . 'utf-8'
+" //    let &fileencodings = &fileencodings . ',' . 'cp932'
+" //  else " cp932
+" //    let &fileencodings = &fileencodings . ',' . 'utf-8'
+" //    let &fileencodings = &fileencodings . ',' . s:enc_euc
+" //  endif
+" //  let &fileencodings = &fileencodings . ',' . &encoding
+" //
+" //  unlet s:enc_euc
+" //  unlet s:enc_jis
+" //
+" //  let did_encoding_settings = 1
+" //endif
+" //"}}}
 
 if has('kaoriya')
 " For Kaoriya only.
-  "set fileencodings=guess
+  set fileencodings=guess
 endif
 
 " When do not include Japanese, use encoding for fileencoding.
@@ -469,7 +472,9 @@ let &statusline = '%t%m%r%h%w%=%y[%{&fileencoding},%{&ff}][ASCII=\%b][HEX=\%B][%
 
 "Tabキー、行末の半角スペースを明示的に表示する。
 set list
-set listchars=eol:¬,tab:»- 
+" set listchars=tab:>-,trail:<-,eol:¬
+"set listchars=tab:>-,trail:-,eol:~
+set listchars=tab:>-,trail:-,eol:~
 
 
 "画面最後の行をできる限り表示する。

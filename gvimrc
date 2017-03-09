@@ -1,7 +1,7 @@
 "----------------------------------------
 " システム設定
 "----------------------------------------
-"scriptencoding cp932
+scriptencoding utf8
 "音を鳴らさない＆画面更新の抑制
 set noerrorbells
 set novisualbell
@@ -58,9 +58,11 @@ if has('win32')
   "set guifontwide=BDF東雲ゴシック:h9:cSHIFTJIS
   "set guifont=Dina:h8:cSHIFTJIS
   "set guifontwide=BDF東雲ゴシック:h9:cSHIFTJIS
-  "
+
+  " Migu 1M
   set guifont=Migu_1M:h11
   set guifontwide=Migu_1M:h11
+
   set linespace=0
 elseif has('mac')
   set guifont=Osaka－等幅:h14
@@ -114,17 +116,17 @@ endif
 "----------------------------------------
 " メニューアイテム作成
 "----------------------------------------
-silent! aunmenu &File.Save
-silent! aunmenu &File.保存(&S)
-silent! aunmenu &File.差分表示(&D)\.\.\.
+"silent! aunmenu &File.Save
+"silent! aunmenu &File.保存(&S)
+"silent! aunmenu &File.差分表示(&D)\.\.\.
 
-let message_revert="再読込しますか?"
-amenu <silent> 10.330 &File.再読込(&U)<Tab>:e!  :if confirm(message_revert, "&Yes\n&No")==1<Bar> e! <Bar> endif<CR>
-amenu <silent> 10.331 &File.バッファ削除(&K)<Tab>:bd  :confirm bd<CR>
-amenu <silent> 10.340 &File.保存(&W)<Tab>:w  :if expand('%') == ''<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR>
-amenu <silent> 10.341 &File.更新時保存(&S)<Tab>:update  :if expand('%') == ''<Bar>browse confirm w<Bar>else<Bar>confirm update<Bar>endif<CR>
-amenu <silent> 10.400 &File.現バッファ差分表示(&D)<Tab>:DiffOrig  :DiffOrig<CR>
-amenu <silent> 10.401 &File.裏バッファと差分表示(&D)<Tab>:Diff\ #  :Diff #<CR>
-amenu <silent> 10.402 &File.差分表示(&D)<Tab>:Diff  :browse vertical diffsplit<CR>
+"let message_revert="再読込しますか?"
+"amenu <silent> 10.330 &File.再読込(&U)<Tab>:e!  :if confirm(message_revert, "&Yes\n&No")==1<Bar> e! <Bar> endif<CR>
+"amenu <silent> 10.331 &File.バッファ削除(&K)<Tab>:bd  :confirm bd<CR>
+"amenu <silent> 10.340 &File.保存(&W)<Tab>:w  :if expand('%') == ''<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR>
+"amenu <silent> 10.341 &File.更新時保存(&S)<Tab>:update  :if expand('%') == ''<Bar>browse confirm w<Bar>else<Bar>confirm update<Bar>endif<CR>
+"amenu <silent> 10.400 &File.現バッファ差分表示(&D)<Tab>:DiffOrig  :DiffOrig<CR>
+"amenu <silent> 10.401 &File.裏バッファと差分表示(&D)<Tab>:Diff\ #  :Diff #<CR>
+"amenu <silent> 10.402 &File.差分表示(&D)<Tab>:Diff  :browse vertical diffsplit<CR>
 
 " vim:set et ts=2 sts=2 sw=2
