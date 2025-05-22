@@ -298,7 +298,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -379,7 +379,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -407,8 +407,8 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         file_ignore_patterns = {
-          "%.git/",
-          "%vendor",
+          '%.git/',
+          '%vendor',
         },
         --
         -- defaults = {
@@ -455,7 +455,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s/', function()
         builtin.live_grep {
           grep_open_files = true,
-          prompt_title = 'Live Grep in Open Files',
+          prompt_title = 'Live rep in Open Files',
         }
       end, { desc = '[S]earch [/] in Open Files' })
 
@@ -491,7 +491,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim',    opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -702,6 +702,15 @@ require('lazy').setup({
             },
           },
         },
+
+        -- PHP
+        intelephense = {
+          -- cmd = { ... },
+          -- filetypes = { ... },
+          -- capabilities = {},
+          capabilities = capabilities,
+          root_dir = require('lspconfig').util.root_pattern('composer.json', '.git', '.'),
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -720,6 +729,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'intelephense', -- PHP
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -785,35 +795,36 @@ require('lazy').setup({
     'saghen/blink.cmp',
     event = 'VimEnter',
     version = '1.*',
-    dependencies = {
-      -- Snippet Engine
-      {
-        'L3MON4D3/LuaSnip',
-        version = '2.*',
-        build = (function()
-          -- Build Step is needed for regex support in snippets.
-          -- This step is not supported in many windows environments.
-          -- Remove the below condition to re-enable on windows.
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-            return
-          end
-          return 'make install_jsregexp'
-        end)(),
-        dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
-          --    See the README about individual language/framework/plugin snippets:
-          --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
-        },
-        opts = {},
-      },
-      'folke/lazydev.nvim',
-    },
+    dependencies = { 'rafamadriz/friendly-snippets' },
+    --dependencies = {
+    --  -- Snippet Engine
+    --  {
+    --    'L3MON4D3/LuaSnip',
+    --    version = '2.*',
+    --    build = (function()
+    --      -- Build Step is needed for regex support in snippets.
+    --      -- This step is not supported in many windows environments.
+    --      -- Remove the below condition to re-enable on windows.
+    --      if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
+    --        return
+    --      end
+    --      return 'make install_jsregexp'
+    --    end)(),
+    --    dependencies = {
+    --      -- `friendly-snippets` contains a variety of premade snippets.
+    --      --    See the README about individual language/framework/plugin snippets:
+    --      --    https://github.com/rafamadriz/friendly-snippets
+    --      -- {
+    --      --   'rafamadriz/friendly-snippets',
+    --      --   config = function()
+    --      --     require('luasnip.loaders.from_vscode').lazy_load()
+    --      --   end,
+    --      -- },
+    --    },
+    --    opts = {},
+    --  },
+    --  'folke/lazydev.nvim',
+    --},
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
     ---
@@ -865,7 +876,7 @@ require('lazy').setup({
         },
       },
 
-      snippets = { preset = 'luasnip' },
+      --snippets = { preset = 'luasnip' },
 
       -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
       -- which automatically downloads a prebuilt binary when enabled.
@@ -874,11 +885,13 @@ require('lazy').setup({
       -- the rust implementation via `'prefer_rust_with_warning'`
       --
       -- See :h blink-cmp-config-fuzzy for more information
-      fuzzy = { implementation = 'lua' },
+      -- fuzzy = { implementation = 'lua' },
+      fuzzy = { implementation = 'prefer_rust_with_warning' },
 
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
     },
+    opts_extend = { 'sources.default' },
   },
 
   { -- You can easily change to a different colorscheme.
