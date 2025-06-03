@@ -7,6 +7,7 @@ vim.g.have_nerd_font = false
 --  For more options, you can see `:help option-list`
 --
 
+-- tab
 vim.o.expandtab = true -- 挿入するtabはスペースタブ
 vim.o.tabstop = 4 -- タブ文字 (Tab) が画面上で占めるスペースの幅
 vim.o.shiftwidth = 4 -- 自動インデントやインデント操作での幅
@@ -48,7 +49,7 @@ vim.o.signcolumn = 'yes'
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 800
 
 -- Configure how new splits should be opened
 vim.o.splitright = true

@@ -36,6 +36,9 @@ local neovim_plugins = {
   -- status bar
   require 'plugins.lualine',
 
+  -- nvim-surround
+  require 'plugins.nvim-surround',
+
   -- Highlight todo, notes, etc in comments
   require 'plugins.todo-comments',
 
