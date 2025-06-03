@@ -57,6 +57,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 ###################
 alias ls='ls --color'
 alias ll='ls -la --color'
+alias vim='nvim'
 
 # add sheldon path
 export PATH=$PATH:$HOME/.local/bin
