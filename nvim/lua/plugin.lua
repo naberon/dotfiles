@@ -30,7 +30,8 @@ local neovim_plugins = {
 
   require 'plugins.blink_cmp',
 
-  require 'plugins.tokyonight',
+  -- require 'plugins.tokyonight',
+  require 'plugins.catppuccin',
 
   -- Highlight todo, notes, etc in comments
   require 'plugins.todo-comments',
