@@ -5,6 +5,11 @@ vim.g.have_nerd_font = false
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+--
+
+vim.o.expandtab = true -- 挿入するtabはスペースタブ
+vim.o.tabstop = 4 -- タブ文字 (Tab) が画面上で占めるスペースの幅
+vim.o.shiftwidth = 4 -- 自動インデントやインデント操作での幅
 
 -- Make line numbers default
 vim.o.number = true
