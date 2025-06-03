@@ -2,7 +2,7 @@
 	name = naberon
 	email = naberon86@gmail.com
 [core]
-	editor = /usr/local/bin/vim
+	editor = nvim
 	filemode = false
     #editor = /usr/bin/vim
 	excludesfile = /Users/watanabe/.gitignore_global
