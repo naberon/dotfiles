@@ -1,10 +1,25 @@
-# Created by newuser for 5.0.5
-#
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-#文字コード
-export LANG=ja_JP.UTF-8
+# Set up the prompt
+autoload -Uz promptinit
+promptinit
+prompt adam1
 
 
+#プロンプト カラー
+autoload colors
+colors
+
+
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+
+# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTFILE=~/.zsh_history   # ヒストリを保存するファイル
 HISTSIZE=100000           # メモリに保存されるヒストリの件数
 SAVEHIST=100000           # 保存されるヒストリの件数
@@ -13,103 +28,97 @@ setopt extended_history   # ヒストリに実行時間も保存する
 setopt hist_ignore_dups   # 直前と同じコマンドはヒストリに追加しない
 setopt share_history      # 他のシェルのヒストリをリアルタイムで共有する
 setopt hist_reduce_blanks # 余分なスペースを削除してヒストリに保存する
-setopt share_history      # 同一ホストでの履歴の共有
+setopt histignorealldups  # 同じコマンドを記録しない
 
-
-# zsh 設定のパス設定
-fpath=(~/.zsh/completion $fpath)
-
-# brew zsh & zsh_completions
-fpath=($(brew --prefix)/share/zsh_completions $fpath)
-fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
-
-# 保管
+# Use modern completion system
 autoload -Uz compinit
 compinit
 
-#プロンプト カラー
-autoload colors
-colors
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2
+eval "$(dircolors -b)"
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' menu select=long
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
 
-# プロンプトフォーマット
-PROMPT="
-%{${fg[yellow]}%}%~%{${reset_color}%} 
-[%n]$ "
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-# vcs 右プロンプト
-source "${HOME}/.zsh/vcs_info.zsh"
+###################
+### alias
+###################
+alias ls='ls --color'
+alias ll='ls -la --color'
 
-#履歴の検索
-autoload history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end 
+# add sheldon path
+export PATH=$PATH:$HOME/.local/bin
 
-# 矢印キーのインターフェイスを使って自動補完
-zstyle ':completion:*' menu select
-# エイリアスでコマンドラインの自動補完を切り替える
-setopt completealiases
+#
+eval "$(sheldon source)"
 
-#cdの設定
-#ディレクトリ名だけで移動する。
-setopt auto_cd
+############
+##  plugin
+############
 
+# plugin: zsh-history-substring-search
+for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
+for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
+
+# plugin: zsh-history-substring-search
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+###################
+# cd history
+###################
 #自動でpushdする
 setopt auto_pushd
 
 #pushdの履歴は残さない。
 setopt pushd_ignore_dups
 
-#ターミナルのタイトル
-case "${TERM}" in
-kterm*|xterm)
-    precmd() {
-        echo -ne "\033]0;${USER}@${HOST}\007"
-    }
-    ;;
-esac 
+###################
+# cdr 
+###################
+# cdr, add-zsh-hook を有効にする
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
 
-#色の設定
-export LSCOLORS=gxfxxxxxcxxxxxxxxxgxgx
-export LS_COLORS='di=01;36:ln=01;35:ex=01;32'
-zstyle ':completion:*' list-colors 'di=36' 'ln=35' 'ex=32'
+# cdr の設定
+zstyle ':completion:*' recent-dirs-insert both
+zstyle ':chpwd:*' recent-dirs-max 500
+zstyle ':chpwd:*' recent-dirs-default true
+zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/shell/chpwd-recent-dirs"
+zstyle ':chpwd:*' recent-dirs-pushd true
 
-
-#alias
-alias la='ls -a'
-alias ll='ls -l'
-alias lla='ls -al'
-
-#alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
-
-# tmux + mac clipboard
-if [ -n "$TMUX" ]; then
-    alias pbcopy="reattach-to-user-namespace pbcopy"
-fi
-#ビープ音ならなさない
-setopt nobeep
-
-#改行のない出力をプロンプトで上書きするのを防ぐ
-unsetopt promptcr
-
-
-# peco
-function peco-select-history() {
-    local tac
-    if which tac > /dev/null; then
-        tac="tac"
-    else
-        tac="tail -r"
-    fi
-    BUFFER=$(history -n 1 | \
-        eval $tac | \
-        peco --query "$LBUFFER")
+# fzf
+# fzf history
+function fzf-select-history() {
+    BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER" --reverse)
     CURSOR=$#BUFFER
+    zle reset-prompt
+}
+zle -N fzf-select-history
+bindkey '^r' fzf-select-history
+
+# fzf cdr
+function fzf-cdr() {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | fzf --reverse)
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
     zle clear-screen
 }
-zle -N peco-select-history
-bindkey '^r' peco-select-history
+zle -N fzf-cdr
+setopt noflowcontrol
+bindkey '^q' fzf-cdr
 
-# phpbrew
-source ~/.phpbrew/bashrc
