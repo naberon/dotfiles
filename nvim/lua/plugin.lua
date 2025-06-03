@@ -33,6 +33,9 @@ local neovim_plugins = {
   -- require 'plugins.tokyonight',
   require 'plugins.catppuccin',
 
+  -- status bar
+  require 'plugins.lualine',
+
   -- Highlight todo, notes, etc in comments
   require 'plugins.todo-comments',
 
