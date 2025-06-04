@@ -19,6 +19,7 @@ config.font_size = 13.0
 -- 背景の非透過率（1なら完全に透過させない）
 config.window_background_opacity = 0.80
 
+local act = wezterm.action
 -- キーバインド
 config.keys = {
 	--
@@ -27,93 +28,14 @@ config.keys = {
 		mods = "ALT|SHIFT",
 		action = wezterm.action.ReloadConfiguration,
 	},
-	-- ¥ではなく、バックスラッシュを入力する。おそらくMac固有
 	{
-		key = "¥",
-		action = wezterm.action.SendKey({ key = "\\" }),
-	},
-	-- Altを押した場合はバックスラッシュではなく¥を入力する。おそらくMac固有
-	{
-		key = "¥",
-		mods = "ALT",
-		action = wezterm.action.SendKey({ key = "¥" }),
-	},
-	-- ⌘ + でフォントサイズを大きくする
-	{
-		key = "+",
-		mods = "CMD|SHIFT",
-		action = wezterm.action.IncreaseFontSize,
-	},
-	-- ⌘ w でペインを閉じる（デフォルトではタブが閉じる）
-	{
-		key = "w",
-		mods = "CMD",
-		action = wezterm.action.CloseCurrentPane({ confirm = true }),
-	},
-	-- ⌘ Ctrl ,で下方向にペイン分割
-	{
-		key = ",",
-		mods = "CMD|CTRL",
-		action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }),
-	},
-	-- ⌘ Ctrl .で右方向にペイン分割
-	{
-		key = ".",
-		mods = "CMD|CTRL",
-		action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }),
-	},
-	-- ⌘ Ctrl oでペインの中身を入れ替える
-	{
-		key = "o",
-		mods = "CMD|CTRL",
-		action = wezterm.action.RotatePanes("Clockwise"),
-	},
-	-- ⌘ Ctrl hjklでペインの移動
-	{
-		key = "h",
-		mods = "CMD|CTRL",
-		action = wezterm.action.ActivatePaneDirection("Left"),
-	},
-	{
-		key = "j",
-		mods = "CMD|CTRL",
-		action = wezterm.action.ActivatePaneDirection("Down"),
-	},
-	{
-		key = "k",
-		mods = "CMD|CTRL",
-		action = wezterm.action.ActivatePaneDirection("Up"),
-	},
-	{
-		key = "l",
-		mods = "CMD|CTRL",
-		action = wezterm.action.ActivatePaneDirection("Right"),
-	},
-	-- ⌘ Ctrl Shift hjklでペイン境界の調整
-	{
-		key = "h",
-		mods = "CMD|CTRL|SHIFT",
-		action = wezterm.action.AdjustPaneSize({ "Left", 2 }),
-	},
-	{
-		key = "j",
-		mods = "CMD|CTRL|SHIFT",
-		action = wezterm.action.AdjustPaneSize({ "Down", 2 }),
-	},
-	{
-		key = "k",
-		mods = "CMD|CTRL|SHIFT",
-		action = wezterm.action.AdjustPaneSize({ "Up", 2 }),
-	},
-	{
-		key = "l",
-		mods = "CMD|CTRL|SHIFT",
-		action = wezterm.action.AdjustPaneSize({ "Right", 2 }),
+		key = "v",
+		mods = "CTRL|SHIFT",
+		action = act.PasteFrom("PrimarySelection"),
 	},
 }
 
 -- マウス操作の挙動設定
-local act = wezterm.action
 config.mouse_bindings = {
 	-- 右クリックでクリップボードから貼り付け
 	{
