@@ -12,7 +12,8 @@ end
 
 -- ここまでは定型文
 -- この先でconfigに各種設定を書いていく
-config.font = wezterm.font("Bizin Gothic Discord Regular", { weight = "Medium", stretch = "Normal", style = "Normal" })
+--config.font = wezterm.font("Bizin Gothic Discord Regular", { weight = "Medium", stretch = "Normal", style = "Normal" })
+config.font = wezterm.font("Bizin Gothic Discord NF", { weight = "Medium", stretch = "Normal", style = "Normal" })
 -- フォントサイズ
 config.font_size = 13.0
 -- 背景の非透過率（1なら完全に透過させない）
@@ -112,16 +113,17 @@ config.keys = {
 }
 
 -- マウス操作の挙動設定
+local act = wezterm.action
 config.mouse_bindings = {
 	-- 右クリックでクリップボードから貼り付け
 	{
-		event = { Down = { streak = 1, button = "Right" } },
-		mods = "NONE",
-		action = wezterm.action.PasteFrom("Clipboard"),
+		event = { Down = { streak = 1, button = "Middle" } },
+		mods = "CTRL",
+		action = act.PasteFrom("PrimarySelection"),
 	},
 }
 
-config.default_domain = "WSL:Ubuntu-24.04"
+--config.default_domain = "WSL:Ubuntu-24.04"
 
 -- タブを下に表示（デフォルトでは上にある）
 --config.tab_bar_at_bottom = true
