@@ -71,9 +71,29 @@ return {
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
+
+    -- file
     vim.keymap.set('n', '<C-f><C-f>', builtin.find_files, { desc = '[S]earch [F]iles' })
+
+    -- buffer
     vim.keymap.set('n', '<C-f><C-b>', builtin.buffers, { desc = '[S]earch [F]iles' })
-    vim.keymap.set('n', '<C-f><C-h>', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+
+    -- oldfiles
+    vim.keymap.set('n', '<C-f><C-h>', function()
+      builtin.oldfiles { cwd_only = true }
+    end, { desc = '[S]earch Recent Files ("." for repeat)' })
+    vim.keymap.set('n', '<C-f>H', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+
+    -- search
+
+    -- It's also possible to pass additional configuration options.
+    --  See `:help telescope.builtin.live_grep()` for information about particular keys
+    vim.keymap.set('n', '<C-f>/', function()
+      builtin.live_grep {
+        grep_open_files = true,
+        prompt_title = 'Live rep in Open Files',
+      }
+    end, { desc = '[S]earch [/] in Open Files' })
 
     --vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
     --vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
@@ -91,15 +111,6 @@ return {
         previewer = false,
       })
     end, { desc = '[/] Fuzzily search in current buffer' })
-
-    -- It's also possible to pass additional configuration options.
-    --  See `:help telescope.builtin.live_grep()` for information about particular keys
-    vim.keymap.set('n', '<leader>s/', function()
-      builtin.live_grep {
-        grep_open_files = true,
-        prompt_title = 'Live rep in Open Files',
-      }
-    end, { desc = '[S]earch [/] in Open Files' })
 
     -- Shortcut for searching your Neovim configuration files
     vim.keymap.set('n', '<C-f><C-v>', function()
