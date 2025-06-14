@@ -123,3 +123,4 @@ zle -N fzf-cdr
 setopt noflowcontrol
 bindkey '^q' fzf-cdr
 
+eval "$(~/.local/bin/mise activate zsh)"
