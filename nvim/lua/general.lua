@@ -7,6 +7,9 @@ vim.g.have_nerd_font = true
 --  For more options, you can see `:help option-list`
 --
 
+-- color
+vim.o.termguicolors = true
+
 -- tab
 vim.o.expandtab = true -- 挿入するtabはスペースタブ
 vim.o.tabstop = 4 -- タブ文字 (Tab) が画面上で占めるスペースの幅
