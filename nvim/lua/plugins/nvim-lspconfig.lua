@@ -62,7 +62,9 @@ return {
         --  Most Language Servers support renaming across files, etc.
         map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
 
-        map('gk', vim.lsp.buf.hover, '[R]e[n]ame')
+        map('gk', function()
+          vim.lsp.buf.hover { border = 'single', max_width = 80 }
+        end, 'hover')
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
