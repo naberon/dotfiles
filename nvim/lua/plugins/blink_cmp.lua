@@ -70,9 +70,23 @@ return {
     },
 
     completion = {
+      accept = { auto_brackets = { enabled = true } },
+      list = { selection = { preselect = false, auto_insert = false } },
+      menu = {
+        auto_show = true,
+        draw = {
+          columns = {
+            { 'label', 'label_description', gap = 1 },
+            { 'kind_icon', 'kind' },
+          },
+        },
+      },
+
       -- By default, you may press `<c-space>` to show the documentation.
       -- Optionally, set `auto_show = true` to show the documentation after a delay.
       documentation = { auto_show = false, auto_show_delay_ms = 500 },
+
+      --ghost_text = { enabled = true },
     },
 
     sources = {
