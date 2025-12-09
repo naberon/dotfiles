@@ -5,16 +5,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Set up the prompt
-autoload -Uz promptinit
-promptinit
-prompt adam1
-
-
 #プロンプト カラー
 autoload colors
 colors
 
+eval "$(dircolors -b)"
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
@@ -25,32 +20,78 @@ HISTSIZE=100000           # メモリに保存されるヒストリの件数
 SAVEHIST=100000           # 保存されるヒストリの件数
 setopt bang_hist          # !を使ったヒストリ展開を行う(d)
 setopt extended_history   # ヒストリに実行時間も保存する
-setopt hist_ignore_dups   # 直前と同じコマンドはヒストリに追加しない
 setopt share_history      # 他のシェルのヒストリをリアルタイムで共有する
 setopt hist_reduce_blanks # 余分なスペースを削除してヒストリに保存する
-setopt histignorealldups  # 同じコマンドを記録しない
+setopt hist_ignore_dups   # 直前と同じコマンドはヒストリに追加しない
+#setopt histignorealldups  # 同じコマンドを記録しない
+
+
+# ディレクトリ名を入力するだけでcdが実行される
+setopt auto_cd
+
+# スペルミス
+setopt correct # コマンドのスペルミスを自動で訂正する
+setopt correct_all # コマンドだけでなく、パスのスペルミスも訂正する
+
+# ディレクトリ内容のキャッシュを無効にする
+#setopt stat 
 
 # Use modern completion system
 autoload -Uz compinit
 compinit
 
+# 補完候補リストの説明部分のフォーマット: 'specify: [説明]' の形式で表示
 zstyle ':completion:*' auto-description 'specify: %d'
+
+# 補完を実行する順番を定義: 展開 -> 完全に一致 -> 訂正 -> 近似
 zstyle ':completion:*' completer _expand _complete _correct _approximate
+
+# 補完のヘッダー行のフォーマット: 'Completing [コンテキスト]' の形式で表示
 zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
+
+# 補完候補を種類ごとにグループ化して表示する (例: ファイル、ディレクトリ、オプションなど)
+zstyle ':completion:*' group-name
+
+# 補完メニューの動作: 候補が2つ以上ある場合に選択可能なメニューを表示
+zstyle ':completion:*' menu select
+
+# 補完リストのプロンプト: 画面最下部に表示される 'Hit TAB for more' などのメッセージのフォーマット
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+
+# マッチングルールを設定: 大文字小文字の区別を無視し、区切り文字も無視してマッチさせる
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' menu select=long
+
+# 補完メニューが画面外にスクロールするときのプロンプト表示フォーマット
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+
+# 従来の compctl コマンドを使った補完定義を無効にする (モダンな compsys のみを使用)
 zstyle ':completion:*' use-compctl false
+
+# 補完の際に詳細な説明を表示する (グループ名、説明文など)
 zstyle ':completion:*' verbose true
 
+# 補完候補リストの説明部分のフォーマット: 説明文を太字の区切り線で囲んで表示
+zstyle ':completion:*:descriptions' format '%B--- %d ---%b'
+
+# 補完候補のリストにLS_COLORSに基づいた色付けを適用
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# --- 特定のコマンド (kill) への設定 ---
+# kill コマンドのプロセスリストの色付け: PIDを赤字で強調
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+
+# kill コマンドの補完候補リストに使用するコマンド (プロセスID、CPU、実行コマンドなどを表示)
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+
+###################
+### key
+###################
+# カーソル位置から行末までを削除 (Ctrl + K)
+bindkey '^k' kill-line
+# カーソル前の単語を削除 (Alt/Option + Backspace)
+bindkey '\M-\H' backward-kill-word
+
 
 ###################
 ### alias
@@ -59,23 +100,36 @@ alias ls='ls --color'
 alias ll='ls -la --color'
 alias vim='nvim'
 
+###################
+### path
+###################
+
 # add sheldon path
 export PATH=$PATH:$HOME/.local/bin
 
+# docker sock
+export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
+
+###################
+### init
+###################
 #
 eval "$(sheldon source)"
+
+eval "$(~/.local/bin/mise activate zsh)"
+
 
 ############
 ##  plugin
 ############
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 # plugin: zsh-history-substring-search
 for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
 for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
 
-# plugin: zsh-history-substring-search
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 ###################
 # cd history
@@ -123,4 +177,3 @@ zle -N fzf-cdr
 setopt noflowcontrol
 bindkey '^q' fzf-cdr
 
-eval "$(~/.local/bin/mise activate zsh)"
