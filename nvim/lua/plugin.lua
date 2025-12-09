@@ -46,6 +46,8 @@ local neovim_plugins = {
   require 'plugins.nvim-treesitter',
 
   require 'plugins.mini',
+
+  require 'plugins.autoread',
 }
 
 local lazy_ui = {
