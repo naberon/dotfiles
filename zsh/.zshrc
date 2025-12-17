@@ -23,7 +23,7 @@ setopt extended_history   # ヒストリに実行時間も保存する
 setopt share_history      # 他のシェルのヒストリをリアルタイムで共有する
 setopt hist_reduce_blanks # 余分なスペースを削除してヒストリに保存する
 setopt hist_ignore_dups   # 直前と同じコマンドはヒストリに追加しない
-#setopt histignorealldups  # 同じコマンドを記録しない
+setopt histignorealldups  # 同じコマンドを記録しない
 
 
 # ディレクトリ名を入力するだけでcdが実行される
