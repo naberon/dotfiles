@@ -45,6 +45,18 @@ return {
     -- [[ Configure Telescope ]]
     -- See `:help telescope` and `:help telescope.setup()`
     require('telescope').setup {
+      defaults = {
+        -- ... 全体設定 ...
+        -- プレビューに使うウィンドウの種類
+        -- 'vertical'（縦分割）ではなく 'flex'（柔軟な配置）や 'float'（フローティングウィンドウ）が推奨
+        layout_strategy = 'flex',
+        layout_config = {
+          -- プレビューウィンドウの最大幅を画面幅の半分などに制限
+          width = 0.9, -- 全体の幅
+          height = 0.9, --
+          --prompt_position = 'top',
+        },
+      },
       -- You can put your default mappings / updates / etc. in here
       --  All the info you're looking for is in `:help telescope.setup()`
       file_ignore_patterns = {
@@ -78,39 +90,48 @@ return {
     -- buffer
     vim.keymap.set('n', '<C-f><C-b>', builtin.buffers, { desc = '[S]earch [F]iles' })
 
+    -- resume
+    vim.keymap.set('n', '<C-f><C-r>', builtin.resume, { desc = '[S]earch [R]esume' })
+
     -- oldfiles
+    -- 現在の作業ディレクトリのみ
     vim.keymap.set('n', '<C-f><C-h>', function()
       builtin.oldfiles { cwd_only = true }
     end, { desc = '[S]earch Recent Files ("." for repeat)' })
+
+    -- Vimのヒストリ全体
     vim.keymap.set('n', '<C-f>H', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 
-    -- search
+    -- diagnostics
+    vim.keymap.set('n', '<C-f><C-d>', builtin.diagnostics, { desc = 'Search Diagnostics' })
 
-    -- It's also possible to pass additional configuration options.
-    --  See `:help telescope.builtin.live_grep()` for information about particular keys
+    -- search
+    -- カレントディレクトリのみ対象
+    vim.keymap.set('n', '<C-f><C-g>', builtin.live_grep, { desc = 'Search by Grep' })
+
+    -- 現在開いているファイルのみ対象
     vim.keymap.set('n', '<C-f>/', function()
       builtin.live_grep {
         grep_open_files = true,
-        prompt_title = 'Live rep in Open Files',
+        prompt_title = 'Live grep in Open Files',
       }
     end, { desc = '[S]earch [/] in Open Files' })
 
-    --vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-    --vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-    vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-    vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-    vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+    -- 現在のカーソルワードで検索
+    vim.keymap.set('n', '<C-f>*', builtin.grep_string, { desc = '[S]earch current [W]ord' })
 
     -- Slightly advanced example of overriding default behavior and theme
-    vim.keymap.set('n', '<leader>/', function()
+    vim.keymap.set('n', '<C-f><C-s>', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
       builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
         winblend = 10,
         previewer = false,
       })
     end, { desc = '[/] Fuzzily search in current buffer' })
+
+    --vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+    --vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+    vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
 
     -- Shortcut for searching your Neovim configuration files
     vim.keymap.set('n', '<C-f><C-v>', function()
