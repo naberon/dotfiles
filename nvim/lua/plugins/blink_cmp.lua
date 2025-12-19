@@ -23,7 +23,17 @@ return {
         {
           'rafamadriz/friendly-snippets',
           config = function()
+            -- filetype ごとのスニペット継承を明示的にリセット・設定
+            local ls = require 'luasnip'
+
             require('luasnip.loaders.from_vscode').lazy_load()
+
+            ls.filetype_set('vue', { 'vue', 'html', 'css', 'scss' })
+            ls.filetype_extend('javascript', { 'javascript' })
+            ls.filetype_extend('typescript', { 'typescript' })
+            -- vue ファイルでは、vue 用のスニペットのみを優先するようにし、
+            -- 必要な場合のみ明示的に追加します（通常は friendly-snippets が適切に処理します）
+            ls.filetype_set('vue', { 'vue' })
           end,
         },
       },
@@ -90,11 +100,7 @@ return {
     },
 
     sources = {
-      --default = { 'lsp', 'path', 'snippets', 'lazydev' },
       default = { 'lsp', 'path', 'snippets' },
-      --providers = {
-      --  lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-      --},
     },
 
     snippets = { preset = 'luasnip' },
