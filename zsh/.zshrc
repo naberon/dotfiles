@@ -177,3 +177,17 @@ zle -N fzf-cdr
 setopt noflowcontrol
 bindkey '^q' fzf-cdr
 
+## 時間のかかるコマンド実行時に完了したタイミングで通知する
+# gok npm install 
+function gok() {
+  "$@"
+  local exit_status=$?
+  if [ $exit_status -eq 0 ]; then
+    # 正常終了時: ウィンドウ名を一瞬だけ変えて戻すことで activity を発生させる
+    local old_name=$(tmux display-message -p '#W')
+    tmux rename-window "DONE!"
+    sleep 0.1
+    tmux rename-window "$old_name"
+  fi
+  return $exit_status
+}
