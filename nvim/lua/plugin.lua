@@ -26,6 +26,8 @@ local neovim_plugins = {
 
   require 'plugins.nvim-lspconfig',
 
+  require 'plugins.trouble',
+
   require 'plugins.conform',
 
   require 'plugins.blink_cmp',
