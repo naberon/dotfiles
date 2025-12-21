@@ -19,6 +19,8 @@ config.font_size = 13.0
 -- 背景の非透過率（1なら完全に透過させない）
 config.window_background_opacity = 0.80
 
+config.use_ime = true
+
 local act = wezterm.action
 -- キーバインド
 config.keys = {
