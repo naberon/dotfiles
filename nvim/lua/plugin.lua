@@ -53,6 +53,7 @@ local neovim_plugins = {
 
   -- File explorer
   require 'plugins.oil',
+  require 'plugins.nvim-tree',
 }
 
 local lazy_ui = {
