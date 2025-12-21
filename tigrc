@@ -7,3 +7,7 @@ bind generic G move-last-line
 bind main G move-last-line
 
 bind generic <Ctrl-g> view-grep
+
+# すべてのブランチを表示
+bind main A !tig --all
+bind generic B view-refs
