@@ -58,6 +58,12 @@ local neovim_plugins = {
   -- Git diff viewer
   require 'plugins.diffview',
   require 'plugins.git-conflict',
+
+  -- UI enhancement
+  require 'plugins.noice',
+
+  -- LSP UI
+  require 'plugins.lspsaga',
 }
 
 local lazy_ui = {
