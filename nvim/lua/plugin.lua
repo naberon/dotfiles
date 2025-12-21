@@ -75,6 +75,12 @@ local neovim_plugins = {
 
   -- Comment
   require 'plugins.comment',
+
+  -- Emmet
+  require 'plugins.emmet',
+
+  -- Color highlight
+  require 'plugins.nvim-highlight-colors',
 }
 
 local lazy_ui = {
