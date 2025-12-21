@@ -64,6 +64,17 @@ local neovim_plugins = {
 
   -- LSP UI
   require 'plugins.lspsaga',
+
+  -- Diagnostics
+  require 'plugins.tiny-inline-diagnostic',
+  require 'plugins.diagflow',
+  require 'plugins.lsp_lines',
+
+  -- Terminal
+  require 'plugins.toggleterm',
+
+  -- Comment
+  require 'plugins.comment',
 }
 
 local lazy_ui = {
