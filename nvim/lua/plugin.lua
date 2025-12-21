@@ -54,6 +54,10 @@ local neovim_plugins = {
   -- File explorer
   require 'plugins.oil',
   require 'plugins.nvim-tree',
+
+  -- Git diff viewer
+  require 'plugins.diffview',
+  require 'plugins.git-conflict',
 }
 
 local lazy_ui = {
