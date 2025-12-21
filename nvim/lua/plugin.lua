@@ -50,6 +50,9 @@ local neovim_plugins = {
   require 'plugins.mini',
 
   require 'plugins.autoread',
+
+  -- File explorer
+  require 'plugins.oil',
 }
 
 local lazy_ui = {
