@@ -15,6 +15,16 @@ vim.o.expandtab = true -- 挿入するtabはスペースタブ
 vim.o.tabstop = 4 -- タブ文字 (Tab) が画面上で占めるスペースの幅
 vim.o.shiftwidth = 4 -- 自動インデントやインデント操作での幅
 
+-- ファイルタイプごとの設定
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'javascript', 'html', 'typescript', 'json', 'css' }, -- 2スペースにしたいファイルタイプを指定
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
 -- Make line numbers default
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
