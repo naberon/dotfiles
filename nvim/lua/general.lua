@@ -1,3 +1,5 @@
+vim.g.editorconfig = false
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -9,21 +11,6 @@ vim.g.have_nerd_font = true
 
 -- color
 vim.o.termguicolors = true
-
--- tab
-vim.o.expandtab = true -- 挿入するtabはスペースタブ
-vim.o.tabstop = 4 -- タブ文字 (Tab) が画面上で占めるスペースの幅
-vim.o.shiftwidth = 4 -- 自動インデントやインデント操作での幅
-
--- ファイルタイプごとの設定
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'javascript', 'html', 'typescript', 'json', 'css' }, -- 2スペースにしたいファイルタイプを指定
-  callback = function()
-    vim.opt_local.tabstop = 2
-    vim.opt_local.shiftwidth = 2
-    vim.opt_local.expandtab = true
-  end,
-})
 
 -- Make line numbers default
 vim.o.number = true
@@ -96,6 +83,11 @@ vim.o.confirm = true
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
+-- tab
+vim.o.expandtab = true -- 挿入するtabはスペースタブ
+vim.o.tabstop = 4 -- タブ文字 (Tab) が画面上で占めるスペースの幅
+vim.o.shiftwidth = 4 -- 自動インデントやインデント操作での幅
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
@@ -107,5 +99,24 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- general.lua 内の該当箇所をこれに差し替え
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'javascript', 'typescript', 'php' },
+  callback = function()
+    -- vim.opt_local ではなく vim.bo (Buffer Options) を直接叩く
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+    vim.opt_local.expandtab = true
+  end,
+})
+
+-- もし HTML や CSS だけは 2スペースのままにしたい場合は、別で定義します
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'html', 'json', 'css', 'vue' },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.expandtab = true
+  end,
+})

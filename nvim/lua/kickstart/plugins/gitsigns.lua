@@ -1,11 +1,17 @@
--- Adds git related signs to the gutter, as well as utilities for managing changes
--- NOTE: gitsigns is already included in init.lua but contains only the base
--- config. This will add also the recommended keymaps.
-
 return {
   {
     'lewis6991/gitsigns.nvim',
     opts = {
+      -- 行末に Blame 情報（誰がいつ更新したか）を常時表示する設定
+      current_line_blame = true, -- デフォルトで ON
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = 'eol', -- 行末に表示
+        delay = 500, -- 0.5秒カーソルを置くと表示
+        ignore_whitespace = false,
+      },
+      current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
 
@@ -40,21 +46,26 @@ return {
         map('v', '<leader>hr', function()
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { desc = 'git [r]eset hunk' })
+
         -- normal mode
         map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
         map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
         map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
-        map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'git [u]ndo stage hunk' })
+        map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'git [u]ndo stage hunk' })
         map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
         map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
-        map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
+        -- 詳細をポップアップで見るバインド (元々の設定を活用)
+        map('n', '<leader>hb', function()
+          gitsigns.blame_line { full = true }
+        end, { desc = 'git [b]lame line (full)' })
         map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
         map('n', '<leader>hD', function()
           gitsigns.diffthis '@'
         end, { desc = 'git [D]iff against last commit' })
+
         -- Toggles
         map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
-        map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
+        map('n', '<leader>tD', gitsigns.toggle_deleted, { desc = '[T]oggle git show [D]eleted' })
       end,
     },
   },

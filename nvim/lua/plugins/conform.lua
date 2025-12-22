@@ -15,9 +15,6 @@ return {
   opts = {
     notify_on_error = false,
     format_on_save = function(bufnr)
-      -- Disable "format_on_save lsp_fallback" for languages that don't
-      -- have a well standardized coding style. You can add additional
-      -- languages here or re-enable it for the disabled ones.
       local disable_filetypes = { c = true, cpp = true }
       if disable_filetypes[vim.bo[bufnr].filetype] then
         return nil
@@ -33,6 +30,13 @@ return {
       vue = { 'prettier' },
       javascript = { 'prettier' },
       typescript = { 'prettier' },
+    },
+    -- ここから追記：Prettier の挙動を強制的に上書きします
+    formatters = {
+      prettier = {
+        -- 4スペース、タブ不使用の設定を引数で渡す
+        prepend_args = { '--tab-width', '4', '--no-use-tabs' },
+      },
     },
   },
 }

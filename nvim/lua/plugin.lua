@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local neovim_plugins = {
   -- Detect tabstop and shiftwidth automatically
-  'NMAC427/guess-indent.nvim',
+  --'NMAC427/guess-indent.nvim',
 
   require 'plugins.gitsigns',
 
