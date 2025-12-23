@@ -31,7 +31,6 @@ setopt auto_cd
 
 # スペルミス
 setopt correct # コマンドのスペルミスを自動で訂正する
-setopt correct_all # コマンドだけでなく、パスのスペルミスも訂正する
 
 # ディレクトリ内容のキャッシュを無効にする
 #setopt stat 
@@ -50,7 +49,7 @@ zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 
 # 補完候補を種類ごとにグループ化して表示する (例: ファイル、ディレクトリ、オプションなど)
-zstyle ':completion:*' group-name
+zstyle ':completion:*' group-name ''
 
 # 補完メニューの動作: 候補が2つ以上ある場合に選択可能なメニューを表示
 zstyle ':completion:*' menu select
