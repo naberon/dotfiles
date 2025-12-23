@@ -99,7 +99,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- general.lua 内の該当箇所をこれに差し替え
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'javascript', 'typescript', 'php' },
   callback = function()
@@ -111,7 +110,6 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
--- もし HTML や CSS だけは 2スペースのままにしたい場合は、別で定義します
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'html', 'json', 'css', 'vue' },
   callback = function()
