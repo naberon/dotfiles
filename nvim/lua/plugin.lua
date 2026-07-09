@@ -81,6 +81,9 @@ local neovim_plugins = {
 
   -- Color highlight
   require 'plugins.nvim-highlight-colors',
+
+  -- Motion
+  require 'plugins.flash',
 }
 
 local lazy_ui = {

@@ -46,22 +46,16 @@ return {
     -- See `:help telescope` and `:help telescope.setup()`
     require('telescope').setup {
       defaults = {
-        -- ... 全体設定 ...
-        -- プレビューに使うウィンドウの種類
-        -- 'vertical'（縦分割）ではなく 'flex'（柔軟な配置）や 'float'（フローティングウィンドウ）が推奨
         layout_strategy = 'flex',
         layout_config = {
-          -- プレビューウィンドウの最大幅を画面幅の半分などに制限
-          width = 0.9, -- 全体の幅
-          height = 0.9, --
-          --prompt_position = 'top',
+          width = 0.9,
+          height = 0.9,
         },
-      },
-      -- You can put your default mappings / updates / etc. in here
-      --  All the info you're looking for is in `:help telescope.setup()`
-      file_ignore_patterns = {
-        '%.git/',
-        '%vendor',
+        file_ignore_patterns = {
+          '%.git/',
+          'vendor/',
+          'node_modules/',
+        },
       },
       --
       -- defaults = {
@@ -85,7 +79,9 @@ return {
     local builtin = require 'telescope.builtin'
 
     -- file
-    vim.keymap.set('n', '<C-f><C-f>', builtin.find_files, { desc = '[S]earch [F]iles' })
+    vim.keymap.set('n', '<C-f><C-f>', function()
+      builtin.find_files { hidden = true, no_ignore = true }
+    end, { desc = '[S]earch [F]iles' })
 
     -- buffer
     vim.keymap.set('n', '<C-f><C-b>', builtin.buffers, { desc = '[S]earch [F]iles' })
