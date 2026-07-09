@@ -109,9 +109,7 @@ alias ld='lazydocker'
 export PATH=$PATH:$HOME/.local/bin
 
 # docker sock
-export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
-#export DOCKER_HOST=unix:///var/run/docker.sock
-
+#export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
 
 ###################
 ### init
@@ -195,22 +193,49 @@ function gok() {
   return $exit_status
 }
 
-###################
-### WSL2 specific
-###################
-#if [[ -n "$WSL_DISTRO_NAME" ]]; then
-#  function wclaude() {
-#    powershell.exe -Command "Set-Location \$env:USERPROFILE; claude $(wslpath -w .) $*"
-#  }
-#fi
+# ── fzf ─────────────────────────────────────────
+# シェル統合（Ctrl+T, Alt+C を有効化）
+source <(fzf --zsh)
+# デフォルトのファイル検索を fd に切り替え（.gitignore 自動尊重・高速）
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+export FZF_DEFAULT_OPTS='
+  --height 40%
+  --layout=reverse
+  --border
+'
+
+# Ctrl+T（ファイル検索）のみプレビューを有効化
+export FZF_CTRL_T_OPTS='
+  --preview "bat --color=always --style=numbers --line-range=:50 {}"
+  --preview-window=right:60%
+'
+
+# rg + fzf → 検索結果を選択して nvim で開く
+# 使い方: frg <検索ワード>
+function fzf-rg() {
+  local result
+  result=$(rg --color=always --line-number --no-heading "$@" | \
+    fzf --ansi \
+        --delimiter=':' \
+        --preview 'bat --color=always --style=numbers {1}' \
+        --preview-window 'right:50%:wrap')
+  if [[ -n "$result" ]]; then
+    local file=$(echo "$result" | cut -d: -f1)
+    local line=$(echo "$result" | cut -d: -f2)
+    nvim +"$line" "$file"
+  fi
+}
+alias frg='fzf-rg'
 
 # bun completions
-[ -s "/home/hi-watanabe/.bun/_bun" ] && source "/home/hi-watanabe/.bun/_bun"
+[ -s "/home/naberon/.bun/_bun" ] && source "/home/naberon/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
 
 # claude plugin headroom
 claude-hr() {
@@ -219,4 +244,3 @@ claude-hr() {
     # 後ろに付けられた引数（$@）をそのまま引き継いで起動
     headroom wrap claude "$@"
 }
-

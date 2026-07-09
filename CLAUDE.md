@@ -1,172 +1,94 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このリポジトリで作業する際の Claude Code 向けガイドです。
 
-## Overview
+## リポジトリ概要
 
-This is a personal dotfiles repository for configuring development environments across Linux/WSL systems. It manages configurations for Neovim, Zsh, Tmux, WezTerm, Git, and tig through symlinks.
+各種開発ツールの設定ファイルを管理する個人用 dotfiles リポジトリ。
+`install.sh` でシンボリックリンクを作成して各設定を反映する。
 
-## Installation and Setup
-
-### Installing Dotfiles
+## インストール
 
 ```bash
+# シンボリックリンクを作成
 ./install.sh
-```
 
-This creates symlinks from `~/workspace/dotfiles/*` to their respective locations in `~/.config/` and home directory. The script skips existing symlinks to prevent overwriting.
-
-### Uninstalling
-
-```bash
+# シンボリックリンクを削除
 ./unlink.sh
 ```
 
-Removes all symlinks created by the installation script.
+作成されるシンボリックリンク:
+- `~/.zshrc` → `zsh/.zshrc`
+- `~/.gitconfig` → `gitconfig`
+- `~/.tigrc` → `tigrc`
+- `~/.config/tmux` → `tmux/`
+- `~/.config/sheldon` → `sheldon/`
+- `~/.config/wezterm` → `wezterm/`
+- `~/.config/nvim` → `nvim/`
 
-## Architecture
+**注意**: `gemrc`、`zprofile`、`mklink.bat`（Windows用）はリポジトリに含まれるが install.sh には未組み込み。
 
-### Directory Structure
+## 設定ファイル構成
 
-```
-dotfiles/
-├── nvim/              # Neovim configuration (Lua-based)
-│   ├── init.lua       # Entry point: loads general, keymap, plugin
-│   ├── lua/
-│   │   ├── general.lua    # Core vim settings
-│   │   ├── keymap.lua     # Key mappings
-│   │   ├── plugin.lua     # Plugin manager setup (lazy.nvim)
-│   │   └── plugins/       # Individual plugin configurations
-├── zsh/               # Zsh configuration
-│   └── .zshrc         # Shell configuration with fzf integration
-├── tmux/              # Tmux configuration
-│   └── tmux.conf
-├── wezterm/           # WezTerm terminal emulator config
-│   └── wezterm.lua
-├── sheldon/           # Zsh plugin manager configuration
-│   └── plugins.toml
-├── gitconfig          # Git configuration
-├── tigrc              # Tig (git TUI) configuration
-└── gemrc              # Ruby gem configuration
-```
+### Neovim (`nvim/`)
 
-### Neovim Architecture
+lazy.nvim でプラグイン管理。
 
-Neovim uses **lazy.nvim** as the plugin manager with a modular Lua configuration:
+エントリポイント: `init.lua` が以下の3モジュールを読み込む:
+- `lua/general.lua` — 基本設定
+- `lua/keymap.lua` — キーマッピング
+- `lua/plugin.lua` — lazy.nvim プラグイン設定
 
-- **Entry point**: `nvim/init.lua` loads three core modules
-- **General settings**: `nvim/lua/general.lua` contains editor options (tabs, line numbers, clipboard, etc.)
-- **Key mappings**: `nvim/lua/keymap.lua`
-- **Plugin management**: `nvim/lua/plugin.lua` configures lazy.nvim and loads all plugins from `plugins/` directory
+プラグインは `lua/plugins/` 配下に個別ファイルで定義（30ファイル以上）。
+**詳細なプラグイン一覧とキーマップは `nvim_plugin.md` を参照。**
 
-Each plugin has its own file in `nvim/lua/plugins/` that returns a lazy.nvim plugin spec. Major plugin categories:
+主要プラグイン:
+- 検索: telescope.nvim
+- 補完: blink.cmp + LuaSnip
+- LSP: nvim-lspconfig + mason.nvim + lspsaga
+- フォーマット: conform.nvim（保存時自動実行）
+- Git: gitsigns, diffview, git-conflict
+- UI: noice.nvim, lualine, catppuccin / tokyonight テーマ
+- ファイラ: oil.nvim, nvim-tree
+- ターミナル: toggleterm
+- 診断: Trouble, lsp_lines, tiny-inline-diagnostic
 
-- **LSP**: nvim-lspconfig, lspsaga, trouble.nvim, blink_cmp (completion)
-- **Git**: gitsigns, diffview, git-conflict
-- **File navigation**: oil.nvim, nvim-tree, telescope
-- **UI/Diagnostics**: noice, tiny-inline-diagnostic, diagflow, lsp_lines
-- **Editing**: nvim-treesitter, nvim-surround, comment.nvim, emmet-vim
-- **Terminal**: toggleterm
-- **Syntax**: nvim-highlight-colors (color code visualization)
+自動インストールされる LSP サーバー: `lua_ls`, `ts_ls`, `vue_ls`, `html`, `cssls`, `intelephense`（PHP）
 
-### Zsh Architecture
+**Neovim の依存ツール**: git, make, gcc, ripgrep, fd-find, Nerd Font
 
-Zsh uses **sheldon** for plugin management with these plugins loaded via `sheldon/plugins.toml`:
+#### プラグイン追加手順
 
-- zsh-completions
-- zsh-autosuggestions
-- zsh-syntax-highlighting
-- zsh-history-substring-search
-- powerlevel10k (theme)
-
-The `.zshrc` includes:
-
-- **History configuration**: 100k entries with sharing across sessions
-- **Completion system**: Advanced zstyle configurations with menu select
-- **fzf integration**: Custom functions for history search (`^r`) and directory navigation via cdr (`^q`)
-- **gok function**: Wrapper for long-running commands that triggers tmux activity notification on completion
-- **mise**: Version manager activation
-
-## Key Development Commands
-
-### Neovim Plugin Management
-
-```bash
-# Launch Neovim and access lazy.nvim UI
-nvim
-:Lazy
-
-# Update all plugins
-:Lazy update
-
-# Install new plugins (after adding to nvim/lua/plugin.lua)
-:Lazy install
-```
-
-### Zsh Plugin Management
-
-```bash
-# Update sheldon plugins
-sheldon lock --update
-
-# Reload zsh configuration
-source ~/.zshrc
-```
-
-### Testing Configuration Changes
-
-After modifying dotfiles:
-
-1. **Neovim**: Restart nvim or `:source $MYVIMRC`
-2. **Zsh**: Run `source ~/.zshrc` or restart shell
-3. **Tmux**: Prefix + r (if reload binding configured) or restart tmux
-
-## Important Configuration Notes
-
-### Neovim
-
-- Tab width: 4 spaces (default), 2 spaces for HTML/CSS/JSON/Vue
-- Leader key and other keymaps are defined in `nvim/lua/keymap.lua`
-- LSP servers must be installed separately (managed by nvim-lspconfig)
-- Plugin documentation with keymaps is maintained in `nvim_plugin.md`
-
-### Zsh
-
-- Uses **emacs keybindings** (`bindkey -e`)
-- History search: `^r` (fzf)
-- Recent directory navigation: `^q` (fzf + cdr)
-- Docker/Podman socket: Configured for rootless podman
-- PATH additions: sheldon (`~/.local/bin`), mise
-
-### File Type Handling
-
-- JavaScript/TypeScript/PHP files use 4-space indentation, HTML/CSS/JSON/Vue files use 2-space indentation in Neovim
-- Emmet expansion works in HTML/CSS/JS/JSX/TS/TSX/Vue/Svelte files
-
-## Adding New Neovim Plugins
-
-1. Create a new file in `nvim/lua/plugins/` (e.g., `nvim/lua/plugins/myplugin.lua`)
-2. Export a lazy.nvim plugin spec:
+1. `nvim/lua/plugins/` に新規ファイルを作成
+2. lazy.nvim プラグインスペックを返す:
    ```lua
    return {
      'author/plugin-name',
      config = function()
-       -- plugin configuration
+       -- 設定
      end,
    }
    ```
-3. Add `require 'plugins.myplugin'` to the `neovim_plugins` table in `nvim/lua/plugin.lua`
-4. Restart Neovim - lazy.nvim will auto-install
+3. `nvim/lua/plugin.lua` の `neovim_plugins` テーブルに `require 'plugins.myplugin'` を追加
+4. Neovim 再起動で自動インストール
 
-## System Dependencies
+### Zsh (`zsh/`)
 
-This configuration assumes the following tools are installed:
+sheldon でプラグイン管理（設定: `sheldon/plugins.toml`）、テーマは powerlevel10k。
 
-- Neovim (recent version with Lua support)
-- Git
-- fzf (fuzzy finder)
-- sheldon (Zsh plugin manager, install to `~/.local/bin`)
-- mise (version manager)
-- tig (optional, for git TUI)
-- Nerd Font (for icons in Neovim and terminal)
-- WezTerm (optional terminal emulator)
+主な機能:
+- fzf 連携: 履歴検索 `Ctrl+R`、ディレクトリ移動 `Ctrl+Q`
+- mise でランタイムバージョン管理
+- プラグイン: zsh-completions, zsh-autosuggestions, zsh-syntax-highlighting, zsh-history-substring-search
+
+### Tmux (`tmux/tmux.conf`)
+
+- プレフィックスキー: `Ctrl+J`（デフォルトの `Ctrl+B` から変更）
+- ペイン操作: vi 風キーバインド（h/j/k/l）
+- 分割: `|` で垂直、`-` で水平
+- true color 対応済み
+- クリップボード: Wayland (wl-clipboard) 連携済み
+
+### WezTerm (`wezterm/wezterm.lua`)
+
+フォント: Bizin Gothic Discord NF、IME サポート有効、カスタムキーバインドあり。

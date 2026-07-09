@@ -33,7 +33,7 @@ config.keys = {
 	{
 		key = "v",
 		mods = "CTRL|SHIFT",
-		action = act.PasteFrom("PrimarySelection"),
+		action = act.PasteFrom("Clipboard"),
 	},
 }
 
