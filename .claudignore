@@ -1,0 +1,9 @@
+.claude/
+.claude-checkpoints/
+
+# Gitの内部構造（これがEISDIRの原因になることが多い）
+.git/
+
+# その他、ドットファイルリポジトリで監視が不要なもの
+.ssh/
+.gnupg/

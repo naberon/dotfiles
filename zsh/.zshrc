@@ -98,6 +98,8 @@ bindkey '\M-\H' backward-kill-word
 alias ls='ls --color'
 alias ll='ls -la --color'
 alias vim='nvim'
+alias lg='lazygit'
+alias ld='lazydocker'
 
 ###################
 ### path
@@ -108,6 +110,8 @@ export PATH=$PATH:$HOME/.local/bin
 
 # docker sock
 export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
+#export DOCKER_HOST=unix:///var/run/docker.sock
+
 
 ###################
 ### init
@@ -190,3 +194,29 @@ function gok() {
   fi
   return $exit_status
 }
+
+###################
+### WSL2 specific
+###################
+#if [[ -n "$WSL_DISTRO_NAME" ]]; then
+#  function wclaude() {
+#    powershell.exe -Command "Set-Location \$env:USERPROFILE; claude $(wslpath -w .) $*"
+#  }
+#fi
+
+# bun completions
+[ -s "/home/hi-watanabe/.bun/_bun" ] && source "/home/hi-watanabe/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+# claude plugin headroom
+claude-hr() {
+    # 8787番ポートの古いプロセスを掃除
+    kill -9 $(lsof -t -i:8787) 2>/dev/null
+    # 後ろに付けられた引数（$@）をそのまま引き継いで起動
+    headroom wrap claude "$@"
+}
+

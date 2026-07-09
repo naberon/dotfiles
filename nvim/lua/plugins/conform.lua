@@ -34,8 +34,14 @@ return {
     -- ここから追記：Prettier の挙動を強制的に上書きします
     formatters = {
       prettier = {
-        -- 4スペース、タブ不使用の設定を引数で渡す
-        prepend_args = { '--tab-width', '4', '--no-use-tabs' },
+        prepend_args = function(self, bufnr)
+          if vim.bo[bufnr].filetype == 'vue' then
+            -- Vueのときは2スペース
+            return { '--tab-width', '2' }
+          end
+          -- それ以外（JS/TSなど）は4スペース
+          return { '--tab-width', '4' }
+        end,
       },
     },
   },

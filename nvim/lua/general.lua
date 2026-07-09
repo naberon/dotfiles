@@ -85,8 +85,8 @@ vim.o.confirm = true
 
 -- tab
 vim.o.expandtab = true -- 挿入するtabはスペースタブ
-vim.o.tabstop = 4 -- タブ文字 (Tab) が画面上で占めるスペースの幅
-vim.o.shiftwidth = 4 -- 自動インデントやインデント操作での幅
+vim.o.tabstop = 2 -- タブ文字 (Tab) が画面上で占めるスペースの幅
+vim.o.shiftwidth = 2 -- 自動インデントやインデント操作での幅
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -100,9 +100,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'javascript', 'typescript', 'php' },
+  pattern = { 'javascript', 'typescript' },
   callback = function()
-    -- vim.opt_local ではなく vim.bo (Buffer Options) を直接叩く
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'php' },
+  callback = function()
     vim.opt_local.tabstop = 4
     vim.opt_local.shiftwidth = 4
     vim.opt_local.softtabstop = 4
