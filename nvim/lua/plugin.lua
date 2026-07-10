@@ -61,6 +61,7 @@ local neovim_plugins = {
 
   -- UI enhancement
   require 'plugins.noice',
+  require 'plugins.notify',
 
   -- LSP UI
   require 'plugins.lspsaga',
@@ -84,6 +85,7 @@ local neovim_plugins = {
 
   -- Motion
   require 'plugins.flash',
+  require 'plugins.smear-cursor',
 }
 
 local lazy_ui = {
