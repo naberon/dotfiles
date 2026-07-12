@@ -6,6 +6,18 @@
 	filemode = false
     #editor = /usr/bin/vim
 	excludesfile = /Users/watanabe/.gitignore_global
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	syntax-theme = Catppuccin Mocha
+	side-by-side = false
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
 [color]
         ui = auto
 [push]

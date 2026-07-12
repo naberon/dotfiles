@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ -z "${DISCORD_WEBHOOK_URL:-}" ]; then
+    echo "notice_discord: DISCORD_WEBHOOK_URL not set. set it in ~/workspace/dotfiles/zsh/.env (see zsh/.env.example)" >&2
+    exit 1
+fi
+
+MESSAGE="${*:-}"
+if [ -z "$MESSAGE" ]; then
+    echo "usage: notice_discord <message>" >&2
+    exit 1
+fi
+
+PAYLOAD=$(jq -n --arg content "$MESSAGE" '{content: $content}')
+
+curl -sf -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL" >/dev/null

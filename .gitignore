@@ -1,4 +1,5 @@
 ssh/
 vim/bundle/
 vim/.netrwhist
+zsh/.env
 

@@ -22,3 +22,4 @@ create_link ~/workspace/dotfiles/tmux ~/.config/tmux
 create_link ~/workspace/dotfiles/sheldon ~/.config/sheldon
 create_link ~/workspace/dotfiles/wezterm ~/.config/wezterm
 create_link ~/workspace/dotfiles/nvim ~/.config/nvim
+create_link ~/workspace/dotfiles/lazygit ~/.config/lazygit

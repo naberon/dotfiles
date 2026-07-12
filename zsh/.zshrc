@@ -14,6 +14,15 @@ eval "$(dircolors -b)"
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
 
+# secrets (git管理外, zsh/.env.example参照)
+if [ -f "$HOME/workspace/dotfiles/zsh/.env" ]; then
+  set -a
+  source "$HOME/workspace/dotfiles/zsh/.env"
+  set +a
+else
+  echo "\033[33m[warn]\033[0m zsh/.env not found. copy zsh/.env.example -> zsh/.env" >&2
+fi
+
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTFILE=~/.zsh_history   # ヒストリを保存するファイル
 HISTSIZE=100000           # メモリに保存されるヒストリの件数
@@ -107,6 +116,9 @@ alias ld='lazydocker'
 
 # add sheldon path
 export PATH=$PATH:$HOME/.local/bin
+
+# add dotfiles bin (notice_discord etc.)
+export PATH=$PATH:$HOME/workspace/dotfiles/bin
 
 # docker sock
 #export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock

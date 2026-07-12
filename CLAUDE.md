@@ -25,8 +25,20 @@
 - `~/.config/sheldon` → `sheldon/`
 - `~/.config/wezterm` → `wezterm/`
 - `~/.config/nvim` → `nvim/`
+- `~/.config/lazygit` → `lazygit/`
 
 **注意**: `gemrc`、`zprofile`、`mklink.bat`（Windows用）はリポジトリに含まれるが install.sh には未組み込み。
+
+## bin/ (自作CLIツール)
+
+`bin/` を `zsh/.zshrc` で PATH に追加済み。symlink不要、どの環境でもリポジトリをクローンすれば呼べる。
+
+- `notice_discord <message>` — Discord Webhook通知。`DISCORD_WEBHOOK_URL` を使用（下記secrets参照）。
+
+## secrets (`zsh/.env`)
+
+git管理したくない値（webhook URL、APIキー等）は `zsh/.env` に書く。gitignore済み、`.zshrc` 起動時に自動source。書式は `zsh/.env.example` 参照。
+非対話シェル（cron等）からは読み込まれない点に注意。
 
 ## 設定ファイル構成
 

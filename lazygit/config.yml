@@ -1,0 +1,42 @@
+disableStartupPopups: true
+
+quitOnTopLevelReturn: true
+
+gui:
+  language: en
+  nerdFontsVersion: '3'
+  showFileTree: true
+  showRandomTip: false
+  showBottomLine: true
+  border: rounded
+  mouseEvents: true
+  theme:
+    activeBorderColor:
+      - '#89b4fa' # blue
+      - bold
+    inactiveBorderColor:
+      - '#6c7086' # overlay0
+    optionsTextColor:
+      - '#89b4fa' # blue
+    selectedLineBgColor:
+      - '#313244' # surface0
+    selectedRangeBgColor:
+      - '#313244' # surface0
+    cherryPickedCommitBgColor:
+      - '#45475a' # surface1
+    cherryPickedCommitFgColor:
+      - '#f9e2af' # yellow
+    unstagedChangesColor:
+      - '#f38ba8' # red
+    defaultFgColor:
+      - '#cdd6f4' # text
+git:
+  autoFetch: true
+  autoRefresh: true
+  parseEmoji: true
+  pagers:
+    - colorArg: always
+      pager: delta --color-only --paging=never
+confirmOnQuit: false
+update:
+  method: never
