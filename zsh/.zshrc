@@ -121,7 +121,7 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/workspace/dotfiles/bin
 
 # docker sock
-#export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
+export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
 
 ###################
 ### init
@@ -207,7 +207,21 @@ function gok() {
 
 # ── fzf ─────────────────────────────────────────
 # シェル統合（Ctrl+T, Alt+C を有効化）
-source <(fzf --zsh)
+# fzf 0.48.0+ は --zsh オプションで統合スクリプトを生成できる
+if fzf --zsh >/dev/null 2>&1; then
+  source <(fzf --zsh)
+else
+  # 旧バージョン用: 各環境のパスを順番に試す
+  for _fzf_dir in \
+    /usr/share/doc/fzf/examples \
+    /usr/share/fzf \
+    /opt/homebrew/opt/fzf/shell \
+    ~/.fzf/shell; do
+    [[ -f "$_fzf_dir/key-bindings.zsh" ]] && source "$_fzf_dir/key-bindings.zsh"
+    [[ -f "$_fzf_dir/completion.zsh" ]]   && source "$_fzf_dir/completion.zsh"
+  done
+  unset _fzf_dir
+fi
 # デフォルトのファイル検索を fd に切り替え（.gitignore 自動尊重・高速）
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
