@@ -82,9 +82,11 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 end)
 
 -- キーバインド設定は keybinds.lua に分離
+config.disable_default_key_bindings = true
 local keybinds = require("keybinds")
 config.keys = keybinds.keys
 config.mouse_bindings = keybinds.mouse_bindings
+config.leader = keybinds.leader
 
 --config.default_domain = "WSL:Ubuntu-24.04"
 
