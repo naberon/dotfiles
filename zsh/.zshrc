@@ -270,3 +270,6 @@ claude-hr() {
     # 後ろに付けられた引数（$@）をそのまま引き継いで起動
     headroom wrap claude "$@"
 }
+
+# opencode
+export PATH=~/.opencode/bin:$PATH
